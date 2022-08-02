@@ -1,0 +1,16 @@
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/BeanProcessValue.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/Delegates.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/ProcessValue.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/GenericDelegate.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/ProcessValuesDefiner.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/Invocation.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/DelegateBeanPostProcessor.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/ProcessStarter.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/StartProcessAspect.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/common/ExpressionExecutor.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/Delegate.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/ProcessVariable.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/CamundaToolsAutoConfiguration.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/delegate/DelegatesBeanRegistrar.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/ProcessVariablesCollector.java
+/Users/ruabtmh/Desktop/projects/flexcode/camunda-tools/camunda-tools-starter/src/main/java/io/github/flexcode/camunda/tools/process/StartProcess.java
