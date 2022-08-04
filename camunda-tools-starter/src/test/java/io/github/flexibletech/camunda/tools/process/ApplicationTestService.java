@@ -12,5 +12,4 @@ public class ApplicationTestService {
     public TestApplication testApplication() {
         return new TestApplication(TestValues.BUSINESS_KEY_VALUE);
     }
-
 }
