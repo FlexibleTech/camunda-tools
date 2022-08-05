@@ -9,7 +9,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1ksjm2p" sourceRef="StartEvent_1" targetRef="Activity_1dxnax4" />
     <bpmn:sequenceFlow id="Flow_0cbv4sz" sourceRef="Activity_1dxnax4" targetRef="Event_1y17ywv" />
-    <bpmn:serviceTask id="Activity_1dxnax4" name="Stub Action" camunda:class="ServiceTaskDelegate">
+    <bpmn:serviceTask id="Activity_1dxnax4" name="Stub Action" camunda:class="io.github.flexibletech.camunda.tools.process.ServiceTaskDelegate">
       <bpmn:incoming>Flow_1ksjm2p</bpmn:incoming>
       <bpmn:outgoing>Flow_0cbv4sz</bpmn:outgoing>
     </bpmn:serviceTask>

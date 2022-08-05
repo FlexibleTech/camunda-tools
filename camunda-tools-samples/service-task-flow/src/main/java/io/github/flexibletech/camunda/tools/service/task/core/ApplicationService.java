@@ -1,6 +1,7 @@
 package io.github.flexibletech.camunda.tools.service.task.core;
 
 import io.github.flexibletech.camunda.tools.delegate.Delegate;
+import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.StartProcess;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class ApplicationService {
     }
 
     @Delegate(beanName = ProcessValues.STEP_1, key = ProcessValues.BUSINESS_KEY)
-    public FlowEntity step1(String id) {
+    public FlowEntity step1(@ProcessKeyValue String id) {
         var flowEntity = cache.get(id);
         flowEntity.setStatus(FlowEntity.REJECT_STATUS);
 
@@ -31,12 +32,12 @@ public class ApplicationService {
     }
 
     @Delegate(beanName = ProcessValues.STEP_2, key = ProcessValues.BUSINESS_KEY)
-    public void step2(String id) {
+    public void step2(@ProcessKeyValue String id) {
         System.out.println("Step 2 has been completed.");
     }
 
     @Delegate(beanName = ProcessValues.STEP_3, key = ProcessValues.BUSINESS_KEY)
-    public void step3(String id) {
+    public void step3(@ProcessKeyValue String id) {
         System.out.println("Step 3 has been completed.");
     }
 

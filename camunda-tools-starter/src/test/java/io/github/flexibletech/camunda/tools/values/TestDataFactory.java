@@ -1,5 +1,6 @@
 package io.github.flexibletech.camunda.tools.values;
 
+import io.github.flexibletech.camunda.tools.common.Constants;
 import io.github.flexibletech.camunda.tools.delegate.GenericDelegate;
 import io.github.flexibletech.camunda.tools.delegate.Invocation;
 import io.github.flexibletech.camunda.tools.utils.ReflectionUtils;
@@ -19,10 +20,10 @@ public class TestDataFactory {
                 Invocation.newInvocation(
                         ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableExpression.class),
                         new TestBeanWithOutputVariableExpression(),
-                        null
+                        new Object[]{Constants.BUSINESS_KEY_VALUE}
                 )
         );
-        genericDelegate.setProcessKeyName(TestValues.PROCESS_KEY);
+        genericDelegate.setProcessKeyName(TestValues.BUSINESS_KEY_NAME);
         genericDelegate.setVariables(
                 Map.of(
                         TestValues.TEST_OUTPUT_OBJECT_VARIABLE_NAME,
@@ -39,10 +40,10 @@ public class TestDataFactory {
                 Invocation.newInvocation(
                         ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableExpression.class),
                         new TestBeanWithOutputVariableExpression(),
-                        null
+                        new Object[]{Constants.BUSINESS_KEY_VALUE}
                 )
         );
-        genericDelegate.setProcessKeyName(TestValues.PROCESS_KEY);
+        genericDelegate.setProcessKeyName(TestValues.BUSINESS_KEY_VALUE);
         return genericDelegate;
     }
 
@@ -53,10 +54,10 @@ public class TestDataFactory {
                 Invocation.newInvocation(
                         ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableFunctionCall.class),
                         new TestBeanWithOutputVariableFunctionCall(),
-                        null
+                        new Object[]{Constants.BUSINESS_KEY_VALUE}
                 )
         );
-        genericDelegate.setProcessKeyName(TestValues.PROCESS_KEY);
+        genericDelegate.setProcessKeyName(TestValues.BUSINESS_KEY_VALUE);
         genericDelegate.setVariables(
                 Map.of(
                         TestValues.CLASS_NAME_VARIABLE,

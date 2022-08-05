@@ -5,14 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(value = ElementType.METHOD)
+@Target(value = ElementType.PARAMETER)
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface StartProcess {
-    String businessKeyName();
-
-    String businessKeyValue();
-
-    String processKey();
-
-    ProcessVariable[] variables() default {};
+public @interface ProcessKeyValue {
 }
