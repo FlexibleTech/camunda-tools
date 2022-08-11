@@ -62,19 +62,19 @@ class DelegatesBeanRegistrar {
             Invocation invocation = Invocation.newInvocation(delegateMethod, bean, processValues);
             Map<String, String> variables = Arrays.stream(processVariables).collect(ProcessVariablesCollector.toValuesMap());
 
-            registerBean(beanName);
+            registerBean(beanName, invocation, processKey, variables);
 
-            postInitGenericDelegate(invocation, processKey, variables, beanName);
             log.info("{} has been registered", beanName);
         }
     }
 
-    private void registerBean(String beanName) {
+    private void registerBean(String beanName, Invocation invocation, String processKey, Map<String, String> variables) {
         try {
             applicationContext.getBean(beanName);
             throw new IllegalArgumentException(String.format("Delegate %s already exists", beanName));
         } catch (NoSuchBeanDefinitionException ex) {
             applicationContext.registerBean(beanName, GenericDelegate.class);
+            postInitGenericDelegate(invocation, processKey, variables, beanName);
         }
     }
 
