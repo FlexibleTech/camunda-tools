@@ -67,4 +67,8 @@ public class TestDataFactory {
         return genericDelegate;
     }
 
+    public static TestOutputObject newTestOutputObject() {
+        return new TestOutputObject(TestValues.TEST_OUTPUT_OBJECT_VARIABLE_RESULT);
+    }
+
 }

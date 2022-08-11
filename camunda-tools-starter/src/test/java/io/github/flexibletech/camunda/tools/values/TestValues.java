@@ -23,4 +23,8 @@ public class TestValues {
     public static final String TEST_DELEGATE_FOUR_NAME = "fourDelegate";
     public static final String TEST_DELEGATE_FIVE_NAME = "fiveDelegate";
     public static final String TEST_DELEGATE_SIX_NAME = "sixDelegate";
+
+    public static final String USER_TASK_FIRST = "userTaskFirst";
+    public static final String USER_TASK_SECOND = "userTaskSecond";
+    public static final String USER_TASK_ID = "e1791412-1895-11ed-861d-0242ac120002";
 }

@@ -26,7 +26,7 @@ public class ExpressionExecutor {
     public static Map<String, Object> parseAndExecuteExpressions(Object object, Map<String, String> expressionMap) {
         Map<String, Object> executedValues = new HashMap<>();
 
-        if (!Objects.isNull(expressionMap)) {
+        if (Objects.nonNull(expressionMap)) {
             expressionMap.forEach(
                     (variableName, stringExpression) ->
                             executedValues.put(variableName, parseAndExecuteExpression(object, stringExpression))

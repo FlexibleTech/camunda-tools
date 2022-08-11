@@ -1,9 +1,9 @@
-package io.github.flexibletech.camunda.tools.process;
+package io.github.flexibletech.camunda.tools.values;
 
 public class TestApplication {
     private final String businessKey;
 
-    TestApplication(String businessKey) {
+    public TestApplication(String businessKey) {
         this.businessKey = businessKey;
     }
 

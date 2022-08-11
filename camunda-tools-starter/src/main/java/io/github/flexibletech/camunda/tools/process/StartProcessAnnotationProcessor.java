@@ -1,8 +1,8 @@
 package io.github.flexibletech.camunda.tools.process;
 
 import com.google.auto.service.AutoService;
+import io.github.flexibletech.camunda.tools.common.AbstractAnnotationProcessor;
 
-import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @AutoService(Processor.class)
 @SupportedAnnotationTypes("io.github.flexibletech.camunda.tools.process.StartProcess")
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
-public class StartProcessAnnotationProcessor extends AbstractProcessor {
+public class StartProcessAnnotationProcessor extends AbstractAnnotationProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -49,12 +49,6 @@ public class StartProcessAnnotationProcessor extends AbstractProcessor {
             }
         }
         return true;
-    }
-
-    private String classNameFrom(Element element) {
-        return ((TypeElement) (element.getEnclosingElement()))
-                .getQualifiedName()
-                .toString();
     }
 
     private boolean isAnnotatedMethodReturnValue(Element element) {

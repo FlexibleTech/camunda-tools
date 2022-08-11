@@ -4,7 +4,11 @@ import io.github.flexibletech.camunda.tools.delegate.BeanProcessValue;
 import io.github.flexibletech.camunda.tools.delegate.Delegate;
 import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.ProcessValue;
+import io.github.flexibletech.camunda.tools.process.ProcessVariable;
+import io.github.flexibletech.camunda.tools.task.UserTask;
+import io.github.flexibletech.camunda.tools.values.TestDataFactory;
 import io.github.flexibletech.camunda.tools.values.TestEnum;
+import io.github.flexibletech.camunda.tools.values.TestOutputObject;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +48,19 @@ public class TestBean {
     public String doActionSix(@ProcessKeyValue String processKey,
                               @BeanProcessValue(value = "beanVariable") BeanVariable beanVariable) {
         return processKey;
+    }
+
+    @UserTask(definitionKey = TestValues.USER_TASK_FIRST, businessKeyValue = TestValues.PROCESS_KEY,
+            variables = {@ProcessVariable(
+                    name = TestValues.CLASS_NAME_VARIABLE,
+                    value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
+            )})
+    public TestOutputObject doActionSeven(@ProcessKeyValue String processKey) {
+        return TestDataFactory.newTestOutputObject();
+    }
+
+    @UserTask(definitionKey = TestValues.USER_TASK_SECOND, businessKeyValue = TestValues.PROCESS_KEY)
+    public void doActionEight(@ProcessKeyValue String processKey) {
     }
 
     public String processKey() {
