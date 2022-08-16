@@ -1,4 +1,4 @@
-package io.github.flexibletech.camunda.tools.process;
+package io.github.flexibletech.camunda.tools.process.start;
 
 import com.google.auto.service.AutoService;
 import io.github.flexibletech.camunda.tools.common.AbstractAnnotationProcessor;
@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("io.github.flexibletech.camunda.tools.process.StartProcess")
+@SupportedAnnotationTypes("io.github.flexibletech.camunda.tools.process.start.StartProcess")
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class StartProcessAnnotationProcessor extends AbstractAnnotationProcessor {
 

@@ -1,7 +1,7 @@
 package io.github.flexibletech.camunda.tools.values.beans;
 
 import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
-import io.github.flexibletech.camunda.tools.process.StartProcess;
+import io.github.flexibletech.camunda.tools.process.start.StartProcess;
 import io.github.flexibletech.camunda.tools.task.UserTask;
 import io.github.flexibletech.camunda.tools.values.TestApplication;
 import io.github.flexibletech.camunda.tools.values.TestValues;

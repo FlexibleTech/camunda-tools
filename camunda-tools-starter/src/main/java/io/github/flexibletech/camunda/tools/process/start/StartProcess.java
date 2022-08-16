@@ -1,4 +1,6 @@
-package io.github.flexibletech.camunda.tools.process;
+package io.github.flexibletech.camunda.tools.process.start;
+
+import io.github.flexibletech.camunda.tools.process.ProcessVariable;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

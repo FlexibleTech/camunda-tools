@@ -3,7 +3,7 @@ package io.github.flexibletech.camunda.tools.service.task.core;
 import io.github.flexibletech.camunda.tools.delegate.Delegate;
 import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.ProcessVariable;
-import io.github.flexibletech.camunda.tools.process.StartProcess;
+import io.github.flexibletech.camunda.tools.process.start.StartProcess;
 import io.github.flexibletech.camunda.tools.task.UserTask;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

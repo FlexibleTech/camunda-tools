@@ -2,6 +2,7 @@ package io.github.flexibletech.camunda.tools.process;
 
 import io.github.flexibletech.camunda.tools.Application;
 import io.github.flexibletech.camunda.tools.config.TestCamundaConfig;
+import io.github.flexibletech.camunda.tools.process.start.StartProcessAspect;
 import io.github.flexibletech.camunda.tools.values.beans.ApplicationTestService;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
