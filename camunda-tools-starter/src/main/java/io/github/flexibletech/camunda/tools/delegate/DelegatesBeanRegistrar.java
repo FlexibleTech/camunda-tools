@@ -5,6 +5,7 @@ import io.github.flexibletech.camunda.tools.process.ProcessVariable;
 import io.github.flexibletech.camunda.tools.process.ProcessVariablesCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -50,7 +51,6 @@ class DelegatesBeanRegistrar {
         }
     }
 
-    //need add checking already registered beans
     private void registerDelegate(Method delegateMethod, Object bean, Delegate delegate) {
         if (Objects.nonNull(delegate)) {
 
@@ -62,10 +62,19 @@ class DelegatesBeanRegistrar {
             Invocation invocation = Invocation.newInvocation(delegateMethod, bean, processValues);
             Map<String, String> variables = Arrays.stream(processVariables).collect(ProcessVariablesCollector.toValuesMap());
 
-            applicationContext.registerBean(beanName, GenericDelegate.class);
+            registerBean(beanName, invocation, processKey, variables);
 
-            postInitGenericDelegate(invocation, processKey, variables, beanName);
             log.info("{} has been registered", beanName);
+        }
+    }
+
+    private void registerBean(String beanName, Invocation invocation, String processKey, Map<String, String> variables) {
+        try {
+            applicationContext.getBean(beanName);
+            throw new IllegalArgumentException(String.format("Delegate %s already exists", beanName));
+        } catch (NoSuchBeanDefinitionException ex) {
+            applicationContext.registerBean(beanName, GenericDelegate.class);
+            postInitGenericDelegate(invocation, processKey, variables, beanName);
         }
     }
 

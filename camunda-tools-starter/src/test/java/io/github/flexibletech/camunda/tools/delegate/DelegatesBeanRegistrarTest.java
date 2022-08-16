@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -42,7 +43,9 @@ public class DelegatesBeanRegistrarTest {
         var genericDelegate = new GenericDelegate();
         Mockito.doNothing().when(genericApplicationContext)
                 .registerBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class);
-        Mockito.when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME))
+                .thenThrow(NoSuchBeanDefinitionException.class);
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
                 .thenReturn(genericDelegate);
 
         delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithOneDelegate());
@@ -73,9 +76,13 @@ public class DelegatesBeanRegistrarTest {
                 .registerBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class);
         Mockito.doNothing().when(genericApplicationContext)
                 .registerBean(TestValues.TEST_DELEGATE_SECOND_NAME, GenericDelegate.class);
-        Mockito.when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME))
+                .thenThrow(NoSuchBeanDefinitionException.class);
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
                 .thenReturn(firstDelegate);
-        Mockito.when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_SECOND_NAME, GenericDelegate.class))
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_SECOND_NAME))
+                .thenThrow(NoSuchBeanDefinitionException.class);
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_SECOND_NAME, GenericDelegate.class))
                 .thenReturn(secondDelegate);
 
         delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithMultipleDelegate());
@@ -109,9 +116,11 @@ public class DelegatesBeanRegistrarTest {
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     public void shouldRegisterDelegateWithOutputVariableExpression() {
         var genericDelegate = new GenericDelegate();
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME))
+                .thenThrow(NoSuchBeanDefinitionException.class);
         Mockito.doNothing().when(genericApplicationContext)
                 .registerBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class);
-        Mockito.when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
                 .thenReturn(genericDelegate);
 
         delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithOutputVariableExpression());
@@ -138,9 +147,11 @@ public class DelegatesBeanRegistrarTest {
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     public void shouldRegisterDelegateWithOutputVariableFunctionCall() {
         var genericDelegate = new GenericDelegate();
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME))
+                .thenThrow(NoSuchBeanDefinitionException.class);
         Mockito.doNothing().when(genericApplicationContext)
                 .registerBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class);
-        Mockito.when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME, GenericDelegate.class))
                 .thenReturn(genericDelegate);
 
         delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithOutputVariableFunctionCall());
@@ -160,6 +171,16 @@ public class DelegatesBeanRegistrarTest {
         // Assert process key name
         var processKeyName = (String) ReflectionTestUtils.getField(genericDelegate, "processKeyName");
         Assertions.assertEquals(processKeyName, TestValues.PROCESS_KEY);
+    }
+
+    @Test
+    public void shouldDontRegisterAlreadyRegisteredDelegate() {
+        var genericDelegate = new GenericDelegate();
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME)).thenReturn(genericDelegate);
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithOneDelegate())
+        );
     }
 
 }

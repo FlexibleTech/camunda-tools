@@ -1,8 +1,12 @@
-package io.github.flexibletech.camunda.tools.process;
+package io.github.flexibletech.camunda.tools.process.start;
 
 import io.github.flexibletech.camunda.tools.common.ExpressionExecutor;
+import io.github.flexibletech.camunda.tools.process.ProcessVariable;
+import io.github.flexibletech.camunda.tools.process.ProcessVariablesCollector;
 import org.apache.commons.lang3.ArrayUtils;
 import org.camunda.bpm.engine.RuntimeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.stereotype.Component;
@@ -16,6 +20,8 @@ import java.util.Objects;
 public class ProcessStarter {
     private final RuntimeService runtimeService;
     private final GenericApplicationContext applicationContext;
+
+    private final Logger log = LoggerFactory.getLogger(ProcessStarter.class);
 
     @Autowired
     public ProcessStarter(RuntimeService runtimeService, GenericApplicationContext applicationContext) {
@@ -42,6 +48,8 @@ public class ProcessStarter {
                 .setVariables(variableValues)
                 .setVariable(startProcessAnnotation.businessKeyName(), businessKeyValue)
                 .execute();
+
+        log.info("Process with key {} has been started", processKeyValue);
     }
 
 }

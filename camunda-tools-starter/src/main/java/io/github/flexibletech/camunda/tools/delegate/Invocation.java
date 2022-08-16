@@ -1,12 +1,13 @@
 package io.github.flexibletech.camunda.tools.delegate;
 
+import io.github.flexibletech.camunda.tools.common.Constants;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents invocation of delegate method.
@@ -31,17 +32,14 @@ public final class Invocation {
      * @throws IllegalAccessException
      */
     public Object execute(String processKey) throws InvocationTargetException, IllegalAccessException {
-        if (ArrayUtils.isEmpty(this.args))
-            return this.delegateMethod.invoke(this.bean, processKey);
+        if(StringUtils.isEmpty(processKey))
+            throw new IllegalArgumentException("processKey can't be null or empty");
 
-        return this.delegateMethod.invoke(this.bean, convertArgsToMethodParams(processKey));
-    }
+        List<Object> invokeArgs = Arrays.asList(this.args);
+        int index = invokeArgs.indexOf(Constants.BUSINESS_KEY_VALUE);
+        invokeArgs.set(index, processKey);
 
-    private Object[] convertArgsToMethodParams(String processKey) {
-        LinkedList<Object> invokeArgs = new LinkedList<>(List.of(this.args));
-        if (Objects.nonNull(processKey)) invokeArgs.addFirst(processKey);
-
-        return invokeArgs.toArray(Object[]::new);
+        return this.delegateMethod.invoke(this.bean, invokeArgs.toArray(Object[]::new));
     }
 
     /**
@@ -55,6 +53,10 @@ public final class Invocation {
     public static Invocation newInvocation(Method method, Object bean, Object[] args) {
         assert method != null;
         assert bean != null;
+        assert args != null;
+
+        if(ArrayUtils.isEmpty(args))
+            throw new IllegalArgumentException("Args can't be empty");
 
         return new Invocation(method, bean, args);
     }

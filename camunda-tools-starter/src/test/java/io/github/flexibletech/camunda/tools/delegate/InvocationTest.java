@@ -1,5 +1,6 @@
 package io.github.flexibletech.camunda.tools.delegate;
 
+import io.github.flexibletech.camunda.tools.common.Constants;
 import io.github.flexibletech.camunda.tools.utils.ReflectionUtils;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 import io.github.flexibletech.camunda.tools.values.beans.TestBean;
@@ -15,7 +16,7 @@ public class InvocationTest {
         Invocation invocation = Invocation.newInvocation(
                 ReflectionUtils.findMethod("doActionFirst", TestBean.class),
                 new TestBean(),
-                new Object[]{TestValues.TEST_BEAN_DO_ACTION_ARG}
+                new Object[]{Constants.BUSINESS_KEY_VALUE, TestValues.TEST_BEAN_DO_ACTION_ARG}
         );
 
         var result = invocation.execute(TestValues.PROCESS_KEY);
@@ -24,21 +25,25 @@ public class InvocationTest {
     }
 
     @Test
-    public void shouldExecuteActionWithoutArgument() throws InvocationTargetException, IllegalAccessException {
-        Invocation invocation = Invocation.newInvocation(
-                ReflectionUtils.findMethod("doActionSecond", TestBean.class),
-                new TestBean(),
-                new Object[]{}
-        );
-
-        var result = invocation.execute(TestValues.PROCESS_KEY);
-
-        Assertions.assertEquals(result, TestValues.PROCESS_KEY);
-    }
-
-    @Test
-    public void shouldDontCreateInvocationWithNullableBeanAndAction() {
+    public void shouldDontCreateInvocationWithNullableBeanAndDelegateMethod() {
         Assertions.assertThrows(AssertionError.class, () -> Invocation.newInvocation(null, null, null));
     }
 
+    @Test
+    public void shouldDontCreateInvocationWithNullableArgs() {
+        Assertions.assertThrows(AssertionError.class, () -> Invocation.newInvocation(
+                ReflectionUtils.findMethod("doActionFirst", TestBean.class),
+                new TestBean(),
+                null)
+        );
+    }
+
+    @Test
+    public void shouldDontCreateInvocationWithEmptyArgs() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Invocation.newInvocation(
+                ReflectionUtils.findMethod("doActionFirst", TestBean.class),
+                new TestBean(),
+                new Object[]{})
+        );
+    }
 }

@@ -3,28 +3,37 @@ package io.github.flexibletech.camunda.tools.service.task.core;
 import java.util.Objects;
 
 public class FlowEntity {
-    static final int OK_STATUS = 1;
-    static final int REJECT_STATUS = 0;
     static final String ID = "1";
 
     private final String id;
-    private Integer status;
+    private Status status;
 
-    private FlowEntity(String id, Integer status) {
-        this.id = id;
+    private FlowEntity(String id, Status status) {
         this.status = status;
+        this.id = id;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
     public static FlowEntity newFlowEntity() {
-        return new FlowEntity(ID, OK_STATUS);
+        return new FlowEntity(ID, Status.STATUS_1);
+    }
+
+    public enum Status {
+        STATUS_1,
+        STATUS_2,
+        STATUS_3,
+        STATUS_4
     }
 
     @Override

@@ -1,5 +1,6 @@
 package io.github.flexibletech.camunda.tools.process;
 
+import io.github.flexibletech.camunda.tools.common.Constants;
 import io.github.flexibletech.camunda.tools.delegate.BeanProcessValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,21 +34,22 @@ public class ProcessValuesDefiner {
      * Gets an array of process values from the delegate method's argument array.
      *
      * @param parameters array with delegate method arguments
-     * @return           array of process values
+     * @return array of process values
      */
     public Object[] defineProcessValues(Parameter[] parameters) {
-        List<Object> actionArgumentValues = new ArrayList<>();
+        List<Object> delegateMethodArgumentValues = new ArrayList<>();
 
         for (Parameter parameter : parameters) {
             try {
-                actionArgumentValues.add(defineProcessValue(parameter));
-                actionArgumentValues.add(defineBeanProcessValue(parameter));
+                delegateMethodArgumentValues.add(defineProcessKeyValue(parameter));
+                delegateMethodArgumentValues.add(defineStringOrEnumProcessValue(parameter));
+                delegateMethodArgumentValues.add(defineBeanProcessValue(parameter));
 
             } catch (InvocationTargetException | IllegalAccessException e) {
                 log.error(e.getMessage());
             }
         }
-        return actionArgumentValues
+        return delegateMethodArgumentValues
                 .stream()
                 .filter(Objects::nonNull)
                 .toArray();
@@ -57,11 +59,11 @@ public class ProcessValuesDefiner {
      * Define process value for argument with string or enum type.
      *
      * @param parameter argument with string or enum type
-     * @return          process value
+     * @return process value
      * @throws java.lang.reflect.InvocationTargetException
      * @throws IllegalAccessException
      */
-    private Object defineProcessValue(Parameter parameter) throws InvocationTargetException, IllegalAccessException {
+    private Object defineStringOrEnumProcessValue(Parameter parameter) throws InvocationTargetException, IllegalAccessException {
         if (parameter.isAnnotationPresent(ProcessValue.class)) {
             ProcessValue annotation = parameter.getAnnotation(ProcessValue.class);
 
@@ -72,17 +74,23 @@ public class ProcessValuesDefiner {
         return null;
     }
 
-    private void checkProcessValueTypes(Class<?> clazz){
-        if(clazz != String.class && !clazz.isEnum())
+    private void checkProcessValueTypes(Class<?> clazz) {
+        if (clazz != String.class && !clazz.isEnum())
             throw new IllegalArgumentException("Process value type must be String or Enum");
+    }
+
+    private Object defineProcessKeyValue(Parameter parameter) {
+        if (parameter.isAnnotationPresent(ProcessKeyValue.class))
+            return Constants.BUSINESS_KEY_VALUE;
+        return null;
     }
 
     /**
      * Define process value for argument with enum type.
      *
-     * @param enumClass         enum class
-     * @param enumProcessValue  enum process value
-     * @return                  process value
+     * @param enumClass        enum class
+     * @param enumProcessValue enum process value
+     * @return process value
      * @throws java.lang.reflect.InvocationTargetException
      * @throws IllegalAccessException
      */
@@ -101,7 +109,7 @@ public class ProcessValuesDefiner {
      * Define process value for spring bean argument.
      *
      * @param parameter spring bean argument
-     * @return          process value
+     * @return process value
      */
     private Object defineBeanProcessValue(Parameter parameter) {
         if (parameter.isAnnotationPresent(BeanProcessValue.class)) {

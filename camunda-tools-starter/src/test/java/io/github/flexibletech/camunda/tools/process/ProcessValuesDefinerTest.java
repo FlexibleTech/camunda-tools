@@ -1,12 +1,12 @@
 package io.github.flexibletech.camunda.tools.process;
 
+import io.github.flexibletech.camunda.tools.common.Constants;
 import io.github.flexibletech.camunda.tools.utils.ReflectionUtils;
 import io.github.flexibletech.camunda.tools.values.TestEnum;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 import io.github.flexibletech.camunda.tools.values.beans.BeanVariable;
 import io.github.flexibletech.camunda.tools.values.beans.TestBean;
 import io.github.flexibletech.camunda.tools.values.beans.TestBeanWithWrongProcessValueType;
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,21 +26,12 @@ public class ProcessValuesDefinerTest {
     private ProcessValuesDefiner processValuesDefiner;
 
     @Test
-    public void shouldDefineEmptyProcessValuesArray() {
-        var processValues = processValuesDefiner.defineProcessValues(
-                ReflectionUtils.findMethod("doActionFirst", TestBean.class).getParameters()
-        );
-
-        Assertions.assertTrue(ArrayUtils.isEmpty(processValues));
-    }
-
-    @Test
     public void shouldDefineEnumProcessValue() {
         var processValues = processValuesDefiner.defineProcessValues(
                 ReflectionUtils.findMethod("doActionThird", TestBean.class).getParameters()
         );
 
-        Assertions.assertEquals(processValues[0], TestEnum.VALUE1);
+        Assertions.assertEquals(processValues[1], TestEnum.VALUE1);
     }
 
     @Test
@@ -49,7 +40,7 @@ public class ProcessValuesDefinerTest {
                 ReflectionUtils.findMethod("doActionFour", TestBean.class).getParameters()
         );
 
-        Assertions.assertEquals(processValues[0], TestValues.TEST_STRING_PROCESS_VALUE);
+        Assertions.assertEquals(processValues[1], TestValues.TEST_STRING_PROCESS_VALUE);
     }
 
     @Test
@@ -58,21 +49,34 @@ public class ProcessValuesDefinerTest {
                 ReflectionUtils.findMethod("doActionFive", TestBean.class).getParameters()
         );
 
-        Assertions.assertEquals(processValues[0], TestEnum.VALUE1);
-        Assertions.assertEquals(processValues[1], TestValues.TEST_STRING_PROCESS_VALUE);
+        Assertions.assertEquals(processValues[1], TestEnum.VALUE1);
+        Assertions.assertEquals(processValues[2], TestValues.TEST_STRING_PROCESS_VALUE);
     }
 
     @Test
-    public void shouldDefineBeanProcessVariable() {
+    public void shouldDefineBeanProcessValue() {
         Mockito.when(genericApplicationContext.getBean(ArgumentMatchers.anyString())).thenReturn(new BeanVariable());
 
         var processValues = processValuesDefiner.defineProcessValues(
                 ReflectionUtils.findMethod("doActionSix", TestBean.class).getParameters()
         );
 
-        var beanVariable = processValues[0];
+        var beanVariable = processValues[1];
         Assertions.assertNotNull(beanVariable);
         Assertions.assertTrue(beanVariable instanceof BeanVariable);
+    }
+
+    @Test
+    public void shouldDefineProcessKeyValue() {
+        Mockito.when(genericApplicationContext.getBean(ArgumentMatchers.anyString())).thenReturn(new BeanVariable());
+
+        var processValues = processValuesDefiner.defineProcessValues(
+                ReflectionUtils.findMethod("doActionSix", TestBean.class).getParameters()
+        );
+
+        var keyValue = processValues[0];
+        Assertions.assertNotNull(keyValue);
+        Assertions.assertEquals(keyValue, Constants.BUSINESS_KEY_VALUE);
     }
 
     @Test

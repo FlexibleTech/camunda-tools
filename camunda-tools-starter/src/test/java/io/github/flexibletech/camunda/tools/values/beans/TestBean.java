@@ -2,8 +2,14 @@ package io.github.flexibletech.camunda.tools.values.beans;
 
 import io.github.flexibletech.camunda.tools.delegate.BeanProcessValue;
 import io.github.flexibletech.camunda.tools.delegate.Delegate;
+import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.ProcessValue;
+import io.github.flexibletech.camunda.tools.process.ProcessVariable;
+import io.github.flexibletech.camunda.tools.task.receive.ReceiveTask;
+import io.github.flexibletech.camunda.tools.task.user.UserTask;
+import io.github.flexibletech.camunda.tools.values.TestDataFactory;
 import io.github.flexibletech.camunda.tools.values.TestEnum;
+import io.github.flexibletech.camunda.tools.values.TestOutputObject;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 import org.springframework.stereotype.Component;
 
@@ -11,38 +17,62 @@ import org.springframework.stereotype.Component;
 public class TestBean {
 
     @Delegate(beanName = TestValues.TEST_DELEGATE_FIRST_NAME, key = TestValues.PROCESS_KEY)
-    public int doActionFirst(String processKey, int param) {
+    public int doActionFirst(@ProcessKeyValue String processKey, int param) {
         return ++param;
     }
 
     @Delegate(beanName = TestValues.TEST_DELEGATE_SECOND_NAME, key = TestValues.PROCESS_KEY)
-    public String doActionSecond(String processKey) {
+    public String doActionSecond(@ProcessKeyValue String processKey) {
         return processKey;
     }
 
     @Delegate(beanName = TestValues.TEST_DELEGATE_THIRD_NAME, key = TestValues.PROCESS_KEY)
-    public String doActionThird(String processKey,
+    public String doActionThird(@ProcessKeyValue String processKey,
                                 @ProcessValue(value = "VALUE1", type = TestEnum.class) TestEnum testEnum) {
         return processKey;
     }
 
     @Delegate(beanName = TestValues.TEST_DELEGATE_FOUR_NAME, key = TestValues.PROCESS_KEY)
-    public String doActionFour(String processKey,
+    public String doActionFour(@ProcessKeyValue String processKey,
                                @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE, type = String.class) String testString) {
         return processKey;
     }
 
     @Delegate(beanName = TestValues.TEST_DELEGATE_FIVE_NAME, key = TestValues.PROCESS_KEY)
-    public String doActionFive(String processKey,
+    public String doActionFive(@ProcessKeyValue String processKey,
                                @ProcessValue(value = "VALUE1", type = TestEnum.class) TestEnum testEnum,
                                @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE, type = String.class) String testString) {
         return processKey;
     }
 
     @Delegate(beanName = TestValues.TEST_DELEGATE_SIX_NAME, key = TestValues.PROCESS_KEY)
-    public String doActionSix(String processKey,
+    public String doActionSix(@ProcessKeyValue String processKey,
                               @BeanProcessValue(value = "beanVariable") BeanVariable beanVariable) {
         return processKey;
+    }
+
+    @UserTask(definitionKey = TestValues.USER_TASK_FIRST,
+            variables = {@ProcessVariable(
+                    name = TestValues.CLASS_NAME_VARIABLE,
+                    value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
+            )})
+    public TestOutputObject doActionSeven(@ProcessKeyValue String processKey) {
+        return TestDataFactory.newTestOutputObject();
+    }
+
+    @UserTask(definitionKey = TestValues.USER_TASK_SECOND)
+    public void doActionEight(@ProcessKeyValue String processKey) {
+    }
+
+    @ReceiveTask(definitionKey = TestValues.RECEIVE_TASK_FIRST, variables = {@ProcessVariable(
+            name = TestValues.CLASS_NAME_VARIABLE,
+            value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
+    )})
+    public void doActionNine(@ProcessKeyValue String processKey) {
+    }
+
+    @ReceiveTask(definitionKey = TestValues.RECEIVE_TASK_FIRST)
+    public void doActionTen(@ProcessKeyValue String processKey) {
     }
 
     public String processKey() {
