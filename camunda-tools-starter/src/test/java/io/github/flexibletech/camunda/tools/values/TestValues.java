@@ -27,4 +27,6 @@ public class TestValues {
     public static final String USER_TASK_FIRST = "userTaskFirst";
     public static final String USER_TASK_SECOND = "userTaskSecond";
     public static final String USER_TASK_ID = "e1791412-1895-11ed-861d-0242ac120002";
+
+    public static final String RECEIVE_TASK_FIRST = "receiveTaskFirst";
 }

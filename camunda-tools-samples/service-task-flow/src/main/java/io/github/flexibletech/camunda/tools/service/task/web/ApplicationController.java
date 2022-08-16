@@ -31,4 +31,9 @@ public class ApplicationController {
         applicationService.step5(FlowEntity.Status.STATUS_3, id);
     }
 
+    @PostMapping("/processes/{id}/step6")
+    public void completeStep6(@PathVariable String id) {
+        applicationService.step6(FlowEntity.Status.STATUS_4, id);
+    }
+
 }

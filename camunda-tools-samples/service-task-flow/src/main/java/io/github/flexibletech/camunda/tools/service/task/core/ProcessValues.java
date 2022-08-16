@@ -12,4 +12,5 @@ public class ProcessValues {
     static final String STEP_3 = "thirdStep";
     static final String STEP_4 = "fourStep";
     static final String STEP_5 = "fiveStep";
+    static final String STEP_6 = "sixStep";
 }

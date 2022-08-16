@@ -1,4 +1,4 @@
-package io.github.flexibletech.camunda.tools.task;
+package io.github.flexibletech.camunda.tools.task.receive;
 
 import io.github.flexibletech.camunda.tools.process.ProcessVariable;
 
@@ -9,10 +9,8 @@ import java.lang.annotation.Target;
 
 @Target(value = ElementType.METHOD)
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface UserTask {
+public @interface ReceiveTask {
     String definitionKey();
-
-    String businessKeyValue();
 
     ProcessVariable[] variables() default {};
 }

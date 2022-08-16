@@ -5,7 +5,8 @@ import io.github.flexibletech.camunda.tools.delegate.Delegate;
 import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.ProcessValue;
 import io.github.flexibletech.camunda.tools.process.ProcessVariable;
-import io.github.flexibletech.camunda.tools.task.UserTask;
+import io.github.flexibletech.camunda.tools.task.receive.ReceiveTask;
+import io.github.flexibletech.camunda.tools.task.user.UserTask;
 import io.github.flexibletech.camunda.tools.values.TestDataFactory;
 import io.github.flexibletech.camunda.tools.values.TestEnum;
 import io.github.flexibletech.camunda.tools.values.TestOutputObject;
@@ -50,7 +51,7 @@ public class TestBean {
         return processKey;
     }
 
-    @UserTask(definitionKey = TestValues.USER_TASK_FIRST, businessKeyValue = TestValues.PROCESS_KEY,
+    @UserTask(definitionKey = TestValues.USER_TASK_FIRST,
             variables = {@ProcessVariable(
                     name = TestValues.CLASS_NAME_VARIABLE,
                     value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
@@ -59,8 +60,19 @@ public class TestBean {
         return TestDataFactory.newTestOutputObject();
     }
 
-    @UserTask(definitionKey = TestValues.USER_TASK_SECOND, businessKeyValue = TestValues.PROCESS_KEY)
+    @UserTask(definitionKey = TestValues.USER_TASK_SECOND)
     public void doActionEight(@ProcessKeyValue String processKey) {
+    }
+
+    @ReceiveTask(definitionKey = TestValues.RECEIVE_TASK_FIRST, variables = {@ProcessVariable(
+            name = TestValues.CLASS_NAME_VARIABLE,
+            value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
+    )})
+    public void doActionNine(@ProcessKeyValue String processKey) {
+    }
+
+    @ReceiveTask(definitionKey = TestValues.RECEIVE_TASK_FIRST)
+    public void doActionTen(@ProcessKeyValue String processKey) {
     }
 
     public String processKey() {

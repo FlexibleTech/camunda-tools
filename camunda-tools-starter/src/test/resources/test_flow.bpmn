@@ -11,13 +11,18 @@
     </bpmn:serviceTask>
     <bpmn:userTask id="userTaskFirst" name="Stub User Task">
       <bpmn:incoming>Flow_0j6jv3v</bpmn:incoming>
-      <bpmn:outgoing>Flow_1u95zyw</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1qfvvi1</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_0j6jv3v" sourceRef="Activity_1dxnax4" targetRef="userTaskFirst" />
-    <bpmn:endEvent id="Event_1hfflee">
-      <bpmn:incoming>Flow_1u95zyw</bpmn:incoming>
+    <bpmn:sequenceFlow id="Flow_1qfvvi1" sourceRef="userTaskFirst" targetRef="receiveTaskFirst" />
+    <bpmn:endEvent id="Event_0y053yj">
+      <bpmn:incoming>Flow_0589d21</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1u95zyw" sourceRef="userTaskFirst" targetRef="Event_1hfflee" />
+    <bpmn:sequenceFlow id="Flow_0589d21" sourceRef="receiveTaskFirst" targetRef="Event_0y053yj" />
+    <bpmn:receiveTask id="receiveTaskFirst" name="Stub Receive Task">
+      <bpmn:incoming>Flow_1qfvvi1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0589d21</bpmn:outgoing>
+    </bpmn:receiveTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TestProcessKey">
@@ -29,9 +34,13 @@
         <di:waypoint x="380" y="120" />
         <di:waypoint x="430" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1u95zyw_di" bpmnElement="Flow_1u95zyw">
+      <bpmndi:BPMNEdge id="Flow_1qfvvi1_di" bpmnElement="Flow_1qfvvi1">
         <di:waypoint x="530" y="120" />
-        <di:waypoint x="582" y="120" />
+        <di:waypoint x="590" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0589d21_di" bpmnElement="Flow_0589d21">
+        <di:waypoint x="690" y="120" />
+        <di:waypoint x="742" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="102" width="36" height="36" />
@@ -42,8 +51,11 @@
       <bpmndi:BPMNShape id="Activity_0r8kfra_di" bpmnElement="userTaskFirst">
         <dc:Bounds x="430" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1hfflee_di" bpmnElement="Event_1hfflee">
-        <dc:Bounds x="582" y="102" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_0y053yj_di" bpmnElement="Event_0y053yj">
+        <dc:Bounds x="742" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a3m9d8_di" bpmnElement="receiveTaskFirst">
+        <dc:Bounds x="590" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

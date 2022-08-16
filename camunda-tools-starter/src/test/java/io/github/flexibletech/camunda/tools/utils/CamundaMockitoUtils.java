@@ -1,13 +1,32 @@
 package io.github.flexibletech.camunda.tools.utils;
 
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
+import java.util.Map;
+
 public class CamundaMockitoUtils {
     private CamundaMockitoUtils() {
+    }
+
+    public static void mockMessageCorrelation(RuntimeService runtimeService,
+                                              ArgumentCaptor<String> businessKeyCaptor,
+                                              ArgumentCaptor<String> messageCorrelationCaptor,
+                                              ArgumentCaptor<Map<String, Object>> variablesCaptor) {
+        var messageCorrelationBuilder = Mockito.mock(MessageCorrelationBuilder.class);
+        Mockito.when(messageCorrelationBuilder.processInstanceBusinessKey(businessKeyCaptor.capture()))
+                .thenReturn(messageCorrelationBuilder);
+        Mockito.when(messageCorrelationBuilder.setVariables(variablesCaptor.capture()))
+                .thenReturn(messageCorrelationBuilder);
+        Mockito.doNothing().when(messageCorrelationBuilder).correlate();
+        Mockito.when(runtimeService.createMessageCorrelation(messageCorrelationCaptor.capture()))
+                .thenReturn(messageCorrelationBuilder);
     }
 
     public static void mockFindTask(TaskService taskService, String userTaskId) {

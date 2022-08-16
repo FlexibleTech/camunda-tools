@@ -1,4 +1,4 @@
-package io.github.flexibletech.camunda.tools.task;
+package io.github.flexibletech.camunda.tools.task.user;
 
 import io.github.flexibletech.camunda.tools.utils.CamundaMockitoUtils;
 import io.github.flexibletech.camunda.tools.utils.ReflectionUtils;

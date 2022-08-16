@@ -26,14 +26,20 @@
     <bpmn:sequenceFlow id="Flow_0yvjl4q" sourceRef="Activity_137ojc2" targetRef="fourStep" />
     <bpmn:userTask id="fiveStep" name="Step 5" camunda:asyncBefore="true">
       <bpmn:incoming>Flow_161ybbo</bpmn:incoming>
-      <bpmn:outgoing>Flow_1szgkis</bpmn:outgoing>
+      <bpmn:outgoing>Flow_08s1p6h</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_161ybbo" sourceRef="fourStep" targetRef="fiveStep" />
-    <bpmn:endEvent id="Event_1h7i4fm">
-      <bpmn:incoming>Flow_1szgkis</bpmn:incoming>
+    <bpmn:receiveTask id="Activity_11jbmu9" name="Step 6" camunda:asyncBefore="true" messageRef="Message_1uyy7da">
+      <bpmn:incoming>Flow_08s1p6h</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xz9wgy</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="Flow_08s1p6h" sourceRef="fiveStep" targetRef="Activity_11jbmu9" />
+    <bpmn:endEvent id="Event_0ad6a7a">
+      <bpmn:incoming>Flow_1xz9wgy</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1szgkis" sourceRef="fiveStep" targetRef="Event_1h7i4fm" />
+    <bpmn:sequenceFlow id="Flow_1xz9wgy" sourceRef="Activity_11jbmu9" targetRef="Event_0ad6a7a" />
   </bpmn:process>
+  <bpmn:message id="Message_1uyy7da" name="sixStep" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="processKey">
       <bpmndi:BPMNEdge id="Flow_0te6brk_di" bpmnElement="Flow_0te6brk">
@@ -56,9 +62,13 @@
         <di:waypoint x="860" y="120" />
         <di:waypoint x="900" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1szgkis_di" bpmnElement="Flow_1szgkis">
+      <bpmndi:BPMNEdge id="Flow_08s1p6h_di" bpmnElement="Flow_08s1p6h">
         <di:waypoint x="1000" y="120" />
-        <di:waypoint x="1062" y="120" />
+        <di:waypoint x="1040" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xz9wgy_di" bpmnElement="Flow_1xz9wgy">
+        <di:waypoint x="1140" y="120" />
+        <di:waypoint x="1182" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_10fwz2i_di" bpmnElement="Activity_0z80s5w">
         <dc:Bounds x="280" y="80" width="100" height="80" />
@@ -75,11 +85,14 @@
       <bpmndi:BPMNShape id="Activity_0ymwcw0_di" bpmnElement="fiveStep">
         <dc:Bounds x="900" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1h7i4fm_di" bpmnElement="Event_1h7i4fm">
-        <dc:Bounds x="1062" y="102" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_17fxzba_di" bpmnElement="fourStep">
         <dc:Bounds x="760" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tohuz0_di" bpmnElement="Activity_11jbmu9">
+        <dc:Bounds x="1040" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ad6a7a_di" bpmnElement="Event_0ad6a7a">
+        <dc:Bounds x="1182" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

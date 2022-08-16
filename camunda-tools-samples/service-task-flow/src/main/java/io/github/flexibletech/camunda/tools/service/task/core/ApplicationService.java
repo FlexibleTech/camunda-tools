@@ -4,7 +4,8 @@ import io.github.flexibletech.camunda.tools.delegate.Delegate;
 import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.ProcessVariable;
 import io.github.flexibletech.camunda.tools.process.start.StartProcess;
-import io.github.flexibletech.camunda.tools.task.UserTask;
+import io.github.flexibletech.camunda.tools.task.receive.ReceiveTask;
+import io.github.flexibletech.camunda.tools.task.user.UserTask;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,6 @@ public class ApplicationService {
 
     @Transactional
     @UserTask(definitionKey = ProcessValues.STEP_4,
-            businessKeyValue = ProcessValues.BUSINESS_KEY,
             variables = {
                     @ProcessVariable(
                             name = ProcessValues.STATUS,
@@ -65,13 +65,23 @@ public class ApplicationService {
     }
 
     @Transactional
-    @UserTask(definitionKey = ProcessValues.STEP_5,
-            businessKeyValue = ProcessValues.BUSINESS_KEY)
+    @UserTask(definitionKey = ProcessValues.STEP_5)
     public void step5(FlowEntity.Status status, @ProcessKeyValue String id) {
         var flowEntity = cache.get(id);
         flowEntity.setStatus(status);
 
         System.out.println("Step 5 has been completed.");
+    }
+
+    @Transactional
+    @ReceiveTask(definitionKey = ProcessValues.STEP_6)
+    public FlowEntity step6(FlowEntity.Status status, @ProcessKeyValue String id) {
+        var flowEntity = cache.get(id);
+        flowEntity.setStatus(status);
+
+        System.out.println("Step 5 has been completed.");
+
+        return flowEntity;
     }
 
 }

@@ -13,9 +13,12 @@ import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("io.github.flexibletech.camunda.tools.task.UserTask")
+@SupportedAnnotationTypes({
+        "io.github.flexibletech.camunda.tools.task.user.UserTask",
+        "io.github.flexibletech.camunda.tools.task.receive.ReceiveTask"
+})
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
-public class UserTaskAnnotationProcessor extends AbstractAnnotationProcessor {
+public class TaskAnnotationProcessor extends AbstractAnnotationProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
