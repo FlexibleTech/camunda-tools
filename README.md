@@ -8,7 +8,7 @@ Camunda tools is a set of tools for declarative work with Camunda BPM framework.
 <dependency>
   <groupId>io.github.flexibletech</groupId>
   <artifactId>camunda-tools-starter</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
