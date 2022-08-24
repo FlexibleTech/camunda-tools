@@ -1,8 +1,8 @@
 package io.github.flexibletech.camunda.tools.delegate;
 
-import io.github.flexibletech.camunda.tools.process.ProcessValuesDefiner;
-import io.github.flexibletech.camunda.tools.process.ProcessVariable;
-import io.github.flexibletech.camunda.tools.process.ProcessVariablesCollector;
+import io.github.flexibletech.camunda.tools.process.values.ProcessValuesDefiner;
+import io.github.flexibletech.camunda.tools.process.variables.ProcessVariable;
+import io.github.flexibletech.camunda.tools.process.variables.ProcessVariablesCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -47,6 +47,7 @@ class DelegatesBeanRegistrar {
     private void registerDelegates(Method delegateMethod, Object bean, Delegates delegatesAnnotation) {
         if (Objects.nonNull(delegatesAnnotation)) {
             Delegate[] delegates = delegatesAnnotation.values();
+
             Arrays.stream(delegates).forEach(delegate -> registerDelegate(delegateMethod, bean, delegate));
         }
     }
@@ -57,14 +58,14 @@ class DelegatesBeanRegistrar {
             ProcessVariable[] processVariables = delegate.variables();
             String processKey = delegate.key();
             String beanName = delegate.beanName();
-            Object[] processValues = processValuesDefiner.defineProcessValues(delegateMethod.getParameters());
+            Object[] processValues = processValuesDefiner.defineProcessValues(delegateMethod.getParameters(), delegate.beanName());
 
-            Invocation invocation = Invocation.newInvocation(delegateMethod, bean, processValues);
+            Invocation invocation = Invocation.newInvocation(delegateMethod, bean, processValues, delegate.throwBpmnError());
             Map<String, String> variables = Arrays.stream(processVariables).collect(ProcessVariablesCollector.toValuesMap());
 
             registerBean(beanName, invocation, processKey, variables);
 
-            log.info("{} has been registered", beanName);
+            log.info("Delegate {} has been registered", beanName);
         }
     }
 

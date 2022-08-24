@@ -17,19 +17,14 @@ public class TestDataFactory {
         var genericDelegate = new GenericDelegate();
 
         genericDelegate.setInvocation(
-                Invocation.newInvocation(
-                        ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableExpression.class),
+                Invocation.newInvocation(ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableExpression.class),
                         new TestBeanWithOutputVariableExpression(),
-                        new Object[]{Constants.BUSINESS_KEY_VALUE}
-                )
-        );
+                        new Object[]{Constants.BUSINESS_KEY_VALUE}));
+
         genericDelegate.setProcessKeyName(TestValues.BUSINESS_KEY_NAME);
-        genericDelegate.setVariables(
-                Map.of(
-                        TestValues.TEST_OUTPUT_OBJECT_VARIABLE_NAME,
-                        TestValues.TEST_OUTPUT_OBJECT_VARIABLE_VALUE
-                )
-        );
+        genericDelegate.setVariables(Map.of(TestValues.TEST_OUTPUT_OBJECT_VARIABLE_NAME,
+                TestValues.TEST_OUTPUT_OBJECT_VARIABLE_VALUE));
+
         return genericDelegate;
     }
 
@@ -37,12 +32,10 @@ public class TestDataFactory {
         var genericDelegate = new GenericDelegate();
 
         genericDelegate.setInvocation(
-                Invocation.newInvocation(
-                        ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableExpression.class),
+                Invocation.newInvocation(ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableExpression.class),
                         new TestBeanWithOutputVariableExpression(),
-                        new Object[]{Constants.BUSINESS_KEY_VALUE}
-                )
-        );
+                        new Object[]{Constants.BUSINESS_KEY_VALUE}));
+
         genericDelegate.setProcessKeyName(TestValues.BUSINESS_KEY_VALUE);
         return genericDelegate;
     }
@@ -51,19 +44,12 @@ public class TestDataFactory {
         var genericDelegate = new GenericDelegate();
 
         genericDelegate.setInvocation(
-                Invocation.newInvocation(
-                        ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableFunctionCall.class),
-                        new TestBeanWithOutputVariableFunctionCall(),
-                        new Object[]{Constants.BUSINESS_KEY_VALUE}
-                )
-        );
+                Invocation.newInvocation(ReflectionUtils.findMethod("doAction", TestBeanWithOutputVariableFunctionCall.class),
+                new TestBeanWithOutputVariableFunctionCall(),
+                new Object[]{Constants.BUSINESS_KEY_VALUE}));
+
         genericDelegate.setProcessKeyName(TestValues.BUSINESS_KEY_VALUE);
-        genericDelegate.setVariables(
-                Map.of(
-                        TestValues.CLASS_NAME_VARIABLE,
-                        TestValues.CLASS_NAME_VARIABLE_EXPRESSION
-                )
-        );
+        genericDelegate.setVariables(Map.of(TestValues.CLASS_NAME_VARIABLE, TestValues.CLASS_NAME_VARIABLE_EXPRESSION));
         return genericDelegate;
     }
 

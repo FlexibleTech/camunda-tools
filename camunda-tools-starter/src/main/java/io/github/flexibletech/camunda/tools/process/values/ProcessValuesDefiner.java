@@ -1,7 +1,7 @@
-package io.github.flexibletech.camunda.tools.process;
+package io.github.flexibletech.camunda.tools.process.values;
 
 import io.github.flexibletech.camunda.tools.common.Constants;
-import io.github.flexibletech.camunda.tools.delegate.BeanProcessValue;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericApplicationContext;
@@ -36,11 +36,13 @@ public class ProcessValuesDefiner {
      * @param parameters array with delegate method arguments
      * @return array of process values
      */
-    public Object[] defineProcessValues(Parameter[] parameters) {
+    public Object[] defineProcessValues(Parameter[] parameters, String delegateName) {
         List<Object> delegateMethodArgumentValues = new ArrayList<>();
 
         for (Parameter parameter : parameters) {
             try {
+                delegateMethodArgumentValues.add(defineBeanProcessValueForDelegate(parameter, delegateName));
+                delegateMethodArgumentValues.add(defineStringOrEnumProcessValueForDelegate(parameter, delegateName));
                 delegateMethodArgumentValues.add(defineProcessKeyValue(parameter));
                 delegateMethodArgumentValues.add(defineStringOrEnumProcessValue(parameter));
                 delegateMethodArgumentValues.add(defineBeanProcessValue(parameter));
@@ -49,10 +51,40 @@ public class ProcessValuesDefiner {
                 log.error(e.getMessage());
             }
         }
-        return delegateMethodArgumentValues
-                .stream()
+        return delegateMethodArgumentValues.stream()
                 .filter(Objects::nonNull)
                 .toArray();
+    }
+
+    private Object defineStringOrEnumProcessValueForDelegate(Parameter parameter, String delegateName) throws InvocationTargetException, IllegalAccessException {
+        if (parameter.isAnnotationPresent(ProcessValues.class) && StringUtils.isNotBlank(delegateName)) {
+            ProcessValues processValuesAnnotation = parameter.getAnnotation(ProcessValues.class);
+
+            var processValueAnnotation = Arrays.stream(processValuesAnnotation.values())
+                    .filter(processValue -> processValue.delegate().equals(delegateName))
+                    .findAny()
+                    .orElseThrow(() -> new IllegalArgumentException("Need specify ProcessValue"));
+
+            checkProcessValueTypes(processValueAnnotation.type());
+            if (processValueAnnotation.type().isEnum())
+                return defineEnumProcessValue(processValueAnnotation.type(), processValueAnnotation.value());
+            return processValueAnnotation.value();
+        }
+        return null;
+    }
+
+    private Object defineBeanProcessValueForDelegate(Parameter parameter, String delegateName) {
+        if (parameter.isAnnotationPresent(BeanProcessValues.class) && StringUtils.isNotBlank(delegateName)) {
+            BeanProcessValues beanProcessValuesAnnotation = parameter.getAnnotation(BeanProcessValues.class);
+
+            var beanProcessValueAnnotation = Arrays.stream(beanProcessValuesAnnotation.values())
+                    .filter(beanProcessValue -> beanProcessValue.delegate().equals(delegateName))
+                    .findAny()
+                    .orElseThrow(() -> new IllegalArgumentException("Need specify BeanProcessValue"));
+
+            return genericApplicationContext.getBean(beanProcessValueAnnotation.value());
+        }
+        return null;
     }
 
     /**

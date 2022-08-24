@@ -1,6 +1,6 @@
 package io.github.flexibletech.camunda.tools.values.beans;
 
-import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
+import io.github.flexibletech.camunda.tools.process.values.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.start.StartProcess;
 import io.github.flexibletech.camunda.tools.task.receive.ReceiveTask;
 import io.github.flexibletech.camunda.tools.task.user.UserTask;

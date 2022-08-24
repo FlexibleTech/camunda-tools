@@ -35,8 +35,7 @@ public class UserTaskAspectIT {
     @Deployment(resources = "test_flow.bpmn")
     public void shouldCreateUserTaskAspectForService() {
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> applicationTestService.testUserTask(TestValues.BUSINESS_KEY_VALUE)
-        );
+                () -> applicationTestService.testUserTask(TestValues.BUSINESS_KEY_VALUE));
 
         Assertions.assertTrue(AopUtils.isAopProxy(applicationTestService));
         Assertions.assertTrue(AopUtils.isCglibProxy(applicationTestService));
