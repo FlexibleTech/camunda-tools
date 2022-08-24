@@ -1,7 +1,7 @@
 package io.github.flexibletech.camunda.tools.values.beans;
 
 import io.github.flexibletech.camunda.tools.delegate.Delegate;
-import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
+import io.github.flexibletech.camunda.tools.process.values.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 
 public class TestBeanWithOneDelegate {

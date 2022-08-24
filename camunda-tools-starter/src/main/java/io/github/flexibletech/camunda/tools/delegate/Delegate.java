@@ -1,6 +1,6 @@
 package io.github.flexibletech.camunda.tools.delegate;
 
-import io.github.flexibletech.camunda.tools.process.ProcessVariable;
+import io.github.flexibletech.camunda.tools.process.variables.ProcessVariable;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,4 +15,6 @@ public @interface Delegate {
     String key();
 
     ProcessVariable[] variables() default {};
+
+    boolean throwBpmnError() default false;
 }

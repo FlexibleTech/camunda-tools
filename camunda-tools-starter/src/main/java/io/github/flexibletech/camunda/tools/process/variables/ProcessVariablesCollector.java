@@ -1,4 +1,4 @@
-package io.github.flexibletech.camunda.tools.process;
+package io.github.flexibletech.camunda.tools.process.variables;
 
 import java.util.Collections;
 import java.util.HashMap;

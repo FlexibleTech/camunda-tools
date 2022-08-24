@@ -33,7 +33,9 @@ public class FlowEntity {
         STATUS_1,
         STATUS_2,
         STATUS_3,
-        STATUS_4
+        STATUS_4,
+        STATUS_5,
+        STATUS_6
     }
 
     @Override

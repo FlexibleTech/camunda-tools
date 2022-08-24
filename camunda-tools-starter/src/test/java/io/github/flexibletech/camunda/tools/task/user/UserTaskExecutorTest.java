@@ -40,11 +40,9 @@ public class UserTaskExecutorTest {
 
         Method userTaskMethod = ReflectionUtils.findMethod("doActionSeven", TestBean.class);
 
-        userTaskExecutor.executeTask(
-                TestDataFactory.newTestOutputObject(),
+        userTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 userTaskMethod,
-                new Object[]{TestValues.BUSINESS_KEY_VALUE}
-        );
+                new Object[]{TestValues.BUSINESS_KEY_VALUE});
 
         Assertions.assertEquals(taskIdCaptor.getValue(), TestValues.USER_TASK_ID);
         Assertions.assertFalse(variablesCaptor.getValue().isEmpty());
@@ -57,11 +55,9 @@ public class UserTaskExecutorTest {
 
         Method userTaskMethod = ReflectionUtils.findMethod("doActionEight", TestBean.class);
 
-        userTaskExecutor.executeTask(
-                TestDataFactory.newTestOutputObject(),
+        userTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 userTaskMethod,
-                new Object[]{TestValues.BUSINESS_KEY_VALUE}
-        );
+                new Object[]{TestValues.BUSINESS_KEY_VALUE});
 
         Assertions.assertEquals(taskIdCaptor.getValue(), TestValues.USER_TASK_ID);
         Mockito.verify(taskService, Mockito.times(0))
@@ -74,11 +70,10 @@ public class UserTaskExecutorTest {
 
         Method userTaskMethod = ReflectionUtils.findMethod("doActionEight", TestBean.class);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
-                userTaskExecutor.executeTask(
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> userTaskExecutor.executeTask(
                         TestDataFactory.newTestOutputObject(),
                         userTaskMethod,
-                        new Object[]{TestValues.BUSINESS_KEY_VALUE}
-                ));
+                        new Object[]{TestValues.BUSINESS_KEY_VALUE}));
     }
 }

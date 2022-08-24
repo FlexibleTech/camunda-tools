@@ -36,8 +36,7 @@ public class ReceiveTaskAspectIT {
     @Deployment(resources = "test_flow.bpmn")
     public void shouldCreateReceiveTaskAspectForService() {
         Assertions.assertThrows(MismatchingMessageCorrelationException.class,
-                () -> applicationTestService.testReceiverTask(TestValues.BUSINESS_KEY_VALUE)
-        );
+                () -> applicationTestService.testReceiverTask(TestValues.BUSINESS_KEY_VALUE));
 
         Assertions.assertTrue(AopUtils.isAopProxy(applicationTestService));
         Assertions.assertTrue(AopUtils.isCglibProxy(applicationTestService));

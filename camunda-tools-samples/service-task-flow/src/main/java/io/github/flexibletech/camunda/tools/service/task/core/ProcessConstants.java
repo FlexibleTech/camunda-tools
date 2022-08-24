@@ -1,8 +1,8 @@
 package io.github.flexibletech.camunda.tools.service.task.core;
 
-public class ProcessValues {
+public class ProcessConstants {
 
-    private ProcessValues() {
+    private ProcessConstants() {
     }
 
     static final String BUSINESS_KEY = "key";
@@ -13,4 +13,6 @@ public class ProcessValues {
     static final String STEP_4 = "fourStep";
     static final String STEP_5 = "fiveStep";
     static final String STEP_6 = "sixStep";
+    static final String STEP_7_1 = "sevenStep1";
+    static final String STEP_7_2 = "sevenStep2";
 }

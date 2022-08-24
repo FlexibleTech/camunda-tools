@@ -11,6 +11,7 @@ public class TestValues {
     public static final String BUSINESS_KEY_VALUE = "businessKey";
     public static final String PROCESS_KEY = "TestProcessKey";
     public static final String TEST_STRING_PROCESS_VALUE = "Test";
+    public static final String TEST_STRING_PROCESS_VALUE_2 = "Test2";
     public static final String TEST_OUTPUT_OBJECT_VARIABLE_NAME = "TestName";
     public static final String TEST_OUTPUT_OBJECT_VARIABLE_VALUE = "value";
     public static final String TEST_OUTPUT_OBJECT_VARIABLE_RESULT = "result";
@@ -23,6 +24,11 @@ public class TestValues {
     public static final String TEST_DELEGATE_FOUR_NAME = "fourDelegate";
     public static final String TEST_DELEGATE_FIVE_NAME = "fiveDelegate";
     public static final String TEST_DELEGATE_SIX_NAME = "sixDelegate";
+    public static final String TEST_DELEGATE_SEVEN_NAME = "sevenDelegate";
+    public static final String TEST_DELEGATE_EIGHT_NAME = "eightDelegate";
+    public static final String TEST_DELEGATE_NINE_NAME = "nineDelegate";
+    public static final String TEST_DELEGATE_TEN_NAME = "tenDelegate";
+    public static final String TEST_DELEGATE_ELEVEN_NAME = "elevenDelegate";
 
     public static final String USER_TASK_FIRST = "userTaskFirst";
     public static final String USER_TASK_SECOND = "userTaskSecond";

@@ -1,9 +1,9 @@
 package io.github.flexibletech.camunda.tools.task;
 
 import io.github.flexibletech.camunda.tools.common.ExpressionExecutor;
-import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
-import io.github.flexibletech.camunda.tools.process.ProcessVariable;
-import io.github.flexibletech.camunda.tools.process.ProcessVariablesCollector;
+import io.github.flexibletech.camunda.tools.process.values.ProcessKeyValue;
+import io.github.flexibletech.camunda.tools.process.variables.ProcessVariable;
+import io.github.flexibletech.camunda.tools.process.variables.ProcessVariablesCollector;
 import org.apache.commons.collections4.MapUtils;
 
 import java.lang.reflect.Method;

@@ -1,6 +1,6 @@
 package io.github.flexibletech.camunda.tools.delegate;
 
-import io.github.flexibletech.camunda.tools.process.ProcessValuesDefiner;
+import io.github.flexibletech.camunda.tools.process.values.ProcessValuesDefiner;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 import io.github.flexibletech.camunda.tools.values.beans.TestBeanWithMultipleDelegate;
 import io.github.flexibletech.camunda.tools.values.beans.TestBeanWithOneDelegate;
@@ -176,11 +176,11 @@ public class DelegatesBeanRegistrarTest {
     @Test
     public void shouldDontRegisterAlreadyRegisteredDelegate() {
         var genericDelegate = new GenericDelegate();
-        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME)).thenReturn(genericDelegate);
+        Mockito.lenient().when(genericApplicationContext.getBean(TestValues.TEST_DELEGATE_FIRST_NAME))
+                .thenReturn(genericDelegate);
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithOneDelegate())
-        );
+                () -> delegatesBeanRegistrar.registerDelegatesForBean(new TestBeanWithOneDelegate()));
     }
 
 }

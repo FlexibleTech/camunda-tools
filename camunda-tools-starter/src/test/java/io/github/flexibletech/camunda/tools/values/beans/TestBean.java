@@ -1,10 +1,12 @@
 package io.github.flexibletech.camunda.tools.values.beans;
 
-import io.github.flexibletech.camunda.tools.delegate.BeanProcessValue;
+import io.github.flexibletech.camunda.tools.delegate.Delegates;
+import io.github.flexibletech.camunda.tools.process.values.BeanProcessValue;
 import io.github.flexibletech.camunda.tools.delegate.Delegate;
-import io.github.flexibletech.camunda.tools.process.ProcessKeyValue;
-import io.github.flexibletech.camunda.tools.process.ProcessValue;
-import io.github.flexibletech.camunda.tools.process.ProcessVariable;
+import io.github.flexibletech.camunda.tools.process.values.ProcessKeyValue;
+import io.github.flexibletech.camunda.tools.process.values.ProcessValue;
+import io.github.flexibletech.camunda.tools.process.values.ProcessValues;
+import io.github.flexibletech.camunda.tools.process.variables.ProcessVariable;
 import io.github.flexibletech.camunda.tools.task.receive.ReceiveTask;
 import io.github.flexibletech.camunda.tools.task.user.UserTask;
 import io.github.flexibletech.camunda.tools.values.TestDataFactory;
@@ -52,10 +54,8 @@ public class TestBean {
     }
 
     @UserTask(definitionKey = TestValues.USER_TASK_FIRST,
-            variables = {@ProcessVariable(
-                    name = TestValues.CLASS_NAME_VARIABLE,
-                    value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
-            )})
+            variables =
+                    {@ProcessVariable(name = TestValues.CLASS_NAME_VARIABLE, value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION)})
     public TestOutputObject doActionSeven(@ProcessKeyValue String processKey) {
         return TestDataFactory.newTestOutputObject();
     }
@@ -64,10 +64,9 @@ public class TestBean {
     public void doActionEight(@ProcessKeyValue String processKey) {
     }
 
-    @ReceiveTask(definitionKey = TestValues.RECEIVE_TASK_FIRST, variables = {@ProcessVariable(
-            name = TestValues.CLASS_NAME_VARIABLE,
-            value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION
-    )})
+    @ReceiveTask(definitionKey = TestValues.RECEIVE_TASK_FIRST,
+            variables = {@ProcessVariable(name = TestValues.CLASS_NAME_VARIABLE,
+                    value = TestValues.CLASS_NAME_VARIABLE_EXPRESSION)})
     public void doActionNine(@ProcessKeyValue String processKey) {
     }
 
@@ -75,6 +74,36 @@ public class TestBean {
     public void doActionTen(@ProcessKeyValue String processKey) {
     }
 
+    @Delegate(beanName = TestValues.TEST_DELEGATE_SEVEN_NAME, key = TestValues.PROCESS_KEY, throwBpmnError = true)
+    public void doActionEleven(@ProcessKeyValue String processKey) {
+        throw new RuntimeException();
+    }
+
+    @Delegates(
+            values = {
+                    @Delegate(beanName = TestValues.TEST_DELEGATE_EIGHT_NAME, key = TestValues.PROCESS_KEY),
+                    @Delegate(beanName = TestValues.TEST_DELEGATE_NINE_NAME, key = TestValues.PROCESS_KEY)
+            }
+    )
+    public void doActionTwelve(@ProcessKeyValue String processKey,
+                               @ProcessValues(values = {
+                                       @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE, type = String.class, delegate = TestValues.TEST_DELEGATE_EIGHT_NAME),
+                                       @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE_2, type = String.class, delegate = TestValues.TEST_DELEGATE_NINE_NAME)
+                               }) String testString) {
+    }
+
+    @Delegates(
+            values = {
+                    @Delegate(beanName = TestValues.TEST_DELEGATE_TEN_NAME, key = TestValues.PROCESS_KEY),
+                    @Delegate(beanName = TestValues.TEST_DELEGATE_ELEVEN_NAME, key = TestValues.PROCESS_KEY)
+            }
+    )
+    public void doActionThirteen(@ProcessKeyValue String processKey,
+                                 @ProcessValues(values = {
+                                         @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE, type = String.class, delegate = TestValues.TEST_DELEGATE_EIGHT_NAME),
+                                         @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE_2, type = String.class, delegate = TestValues.TEST_DELEGATE_NINE_NAME)
+                                 }) String testString) {
+    }
     public String processKey() {
         return TestValues.PROCESS_KEY;
     }

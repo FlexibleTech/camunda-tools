@@ -45,8 +45,7 @@ public class ReceiveTaskExecutorTest {
 
         receiveTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 receiveTaskMethod,
-                new Object[]{TestValues.BUSINESS_KEY_VALUE}
-        );
+                new Object[]{TestValues.BUSINESS_KEY_VALUE});
 
         Assertions.assertEquals(businessKeyCaptor.getValue(), TestValues.BUSINESS_KEY_VALUE);
         Assertions.assertEquals(messageCorrelationCaptor.getValue(), TestValues.RECEIVE_TASK_FIRST);
@@ -62,8 +61,7 @@ public class ReceiveTaskExecutorTest {
 
         receiveTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 receiveTaskMethod,
-                new Object[]{TestValues.BUSINESS_KEY_VALUE}
-        );
+                new Object[]{TestValues.BUSINESS_KEY_VALUE});
 
         Assertions.assertEquals(businessKeyCaptor.getValue(), TestValues.BUSINESS_KEY_VALUE);
         Assertions.assertEquals(messageCorrelationCaptor.getValue(), TestValues.RECEIVE_TASK_FIRST);
