@@ -1,6 +1,6 @@
 # Camunda Tools
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+![alt text](https://accso.de/app/uploads/2019/08/camunda.jpg)
 
 Camunda tools is a set of tools for declarative work with Camunda BPM framework.
 ##  Dependency
