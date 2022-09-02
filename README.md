@@ -13,7 +13,7 @@ Camunda tools is a set of tools for declarative work with Camunda BPM framework.
 ```
 
 ##  Description
-For complex domains, it is important to use clean or hexagonal architecture. Very often, central frameworks penetrate deep into application or even domain code. In applications built using the camunda изь process orchestration engine, a large amount of framework code can be observed. This library allows you to avoid redundant framework code by converting all work with the framework into a declarative style.
+For complex domains, it is important to use clean or hexagonal architecture. Very often, central frameworks penetrate deep into application or even domain code. In applications built using the camunda process orchestration engine, a large amount of framework code can be observed. This library allows you to avoid redundant framework code by converting all work with the framework into a declarative style.
 
 ## Use case
 
