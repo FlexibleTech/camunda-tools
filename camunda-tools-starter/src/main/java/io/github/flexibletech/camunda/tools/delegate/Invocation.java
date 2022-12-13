@@ -31,16 +31,15 @@ public final class Invocation {
      *
      * @param processKey process key
      * @return result of delegate method
-     * @throws java.lang.reflect.InvocationTargetException
-     * @throws IllegalAccessException
      */
     public Object execute(String processKey) throws InvocationTargetException, IllegalAccessException {
         if (StringUtils.isEmpty(processKey))
             throw new IllegalArgumentException("processKey can't be null or empty");
 
         List<Object> invokeArgs = Arrays.asList(this.args);
-        int index = invokeArgs.indexOf(Constants.BUSINESS_KEY_VALUE);
-        invokeArgs.set(index, processKey);
+        //We replace Constants.BUSINESS_KEY_VALUE with the real value of the process key in camunda.
+        int businessKeyValueIndex = invokeArgs.indexOf(Constants.BUSINESS_KEY_VALUE);
+        invokeArgs.set(businessKeyValueIndex, processKey);
 
         try {
             return this.delegateMethod.invoke(this.bean, invokeArgs.toArray(Object[]::new));

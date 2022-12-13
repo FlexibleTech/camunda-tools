@@ -8,11 +8,9 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,7 +35,7 @@ public class ProcessValuesDefiner {
      * @return array of process values
      */
     public Object[] defineProcessValues(Parameter[] parameters, String delegateName) {
-        List<Object> delegateMethodArgumentValues = new ArrayList<>();
+        var delegateMethodArgumentValues = new ArrayList<>();
 
         for (Parameter parameter : parameters) {
             try {
@@ -58,24 +56,27 @@ public class ProcessValuesDefiner {
 
     private Object defineStringOrEnumProcessValueForDelegate(Parameter parameter, String delegateName) throws InvocationTargetException, IllegalAccessException {
         if (parameter.isAnnotationPresent(ProcessValues.class) && StringUtils.isNotBlank(delegateName)) {
-            ProcessValues processValuesAnnotation = parameter.getAnnotation(ProcessValues.class);
+            var processValuesAnnotation = parameter.getAnnotation(ProcessValues.class);
 
-            var processValueAnnotation = Arrays.stream(processValuesAnnotation.values())
+            var optionalProcessValueAnnotation = Arrays.stream(processValuesAnnotation.values())
                     .filter(processValue -> processValue.delegate().equals(delegateName))
-                    .findAny()
-                    .orElseThrow(() -> new IllegalArgumentException("Need specify ProcessValue"));
+                    .findAny();
 
-            checkProcessValueTypes(processValueAnnotation.type());
-            if (processValueAnnotation.type().isEnum())
-                return defineEnumProcessValue(processValueAnnotation.type(), processValueAnnotation.value());
-            return processValueAnnotation.value();
+            if (optionalProcessValueAnnotation.isPresent()) {
+                var processValueAnnotation = optionalProcessValueAnnotation.get();
+
+                checkProcessValueTypes(processValueAnnotation.type());
+                if (processValueAnnotation.type().isEnum())
+                    return defineEnumProcessValue(processValueAnnotation.type(), processValueAnnotation.value());
+                return processValueAnnotation.value();
+            }
         }
         return null;
     }
 
     private Object defineBeanProcessValueForDelegate(Parameter parameter, String delegateName) {
         if (parameter.isAnnotationPresent(BeanProcessValues.class) && StringUtils.isNotBlank(delegateName)) {
-            BeanProcessValues beanProcessValuesAnnotation = parameter.getAnnotation(BeanProcessValues.class);
+            var beanProcessValuesAnnotation = parameter.getAnnotation(BeanProcessValues.class);
 
             var beanProcessValueAnnotation = Arrays.stream(beanProcessValuesAnnotation.values())
                     .filter(beanProcessValue -> beanProcessValue.delegate().equals(delegateName))
@@ -92,12 +93,10 @@ public class ProcessValuesDefiner {
      *
      * @param parameter argument with string or enum type
      * @return process value
-     * @throws java.lang.reflect.InvocationTargetException
-     * @throws IllegalAccessException
      */
     private Object defineStringOrEnumProcessValue(Parameter parameter) throws InvocationTargetException, IllegalAccessException {
         if (parameter.isAnnotationPresent(ProcessValue.class)) {
-            ProcessValue annotation = parameter.getAnnotation(ProcessValue.class);
+            var annotation = parameter.getAnnotation(ProcessValue.class);
 
             checkProcessValueTypes(annotation.type());
             if (annotation.type().isEnum()) return defineEnumProcessValue(annotation.type(), annotation.value());
@@ -111,6 +110,15 @@ public class ProcessValuesDefiner {
             throw new IllegalArgumentException("Process value type must be String or Enum");
     }
 
+    /**
+     * If there is a parameter marked with the ProcessKeyValue annotation in the parameter
+     * list of the delegate method, return Constants.BUSINESS_KEY_VALUE as the value of this parameter.
+     * In the future, this value will be replaced by the real value of the process key
+     * obtained from the camunda process variables.
+     *
+     * @param parameter Delegate method parameter
+     * @return Constants.BUSINESS_KEY_VALUE if there is a parameter marked with the ProcessKeyValue annotation
+     */
     private Object defineProcessKeyValue(Parameter parameter) {
         if (parameter.isAnnotationPresent(ProcessKeyValue.class))
             return Constants.BUSINESS_KEY_VALUE;
@@ -123,13 +131,11 @@ public class ProcessValuesDefiner {
      * @param enumClass        enum class
      * @param enumProcessValue enum process value
      * @return process value
-     * @throws java.lang.reflect.InvocationTargetException
-     * @throws IllegalAccessException
      */
     private Object defineEnumProcessValue(Class<?> enumClass, String enumProcessValue) throws InvocationTargetException, IllegalAccessException {
-        Method[] enumMethods = enumClass.getMethods();
+        var enumMethods = enumClass.getMethods();
 
-        Method valueOfMethod = Arrays.stream(enumMethods)
+        var valueOfMethod = Arrays.stream(enumMethods)
                 .filter(m -> m.getName().equals(VALUE_OF_ENUM_METHOD))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("There is no valueOf method in this enum"));
@@ -145,10 +151,9 @@ public class ProcessValuesDefiner {
      */
     private Object defineBeanProcessValue(Parameter parameter) {
         if (parameter.isAnnotationPresent(BeanProcessValue.class)) {
-            BeanProcessValue annotation = parameter.getAnnotation(BeanProcessValue.class);
+            var annotation = parameter.getAnnotation(BeanProcessValue.class);
             return genericApplicationContext.getBean(annotation.value());
         }
         return null;
     }
-
 }

@@ -12,13 +12,12 @@ public class AopUtils {
     }
 
     public static <A extends Annotation> A findAnnotation(JoinPoint joinPoint, Class<A> clazz) {
-        Method method = findMethod(joinPoint);
+        var method = findMethod(joinPoint);
         return AnnotationUtils.findAnnotation(method, clazz);
     }
 
     public static Method findMethod(JoinPoint joinPoint) {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        var signature = (MethodSignature) joinPoint.getSignature();
         return signature.getMethod();
     }
-
 }

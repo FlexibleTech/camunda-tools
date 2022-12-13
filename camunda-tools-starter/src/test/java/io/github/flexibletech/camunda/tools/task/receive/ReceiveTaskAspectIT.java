@@ -45,5 +45,4 @@ public class ReceiveTaskAspectIT {
         Mockito.verify(receiveTaskAspect, Mockito.times(1))
                 .execute(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
-
 }

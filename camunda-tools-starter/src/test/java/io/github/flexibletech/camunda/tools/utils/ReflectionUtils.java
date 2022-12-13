@@ -11,7 +11,6 @@ public class ReflectionUtils {
     public static Method findMethod(String name, Class<?> clazz) {
         return Arrays.stream(clazz.getMethods())
                 .filter(m -> m.getName().equals(name)).findAny()
-                .orElseThrow(() -> new IllegalAccessError("doAction method is not found"));
+                .orElseThrow(() -> new IllegalAccessError(String.format("%s method is not found", name)));
     }
-
 }

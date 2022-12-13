@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-public class GenericDelegateTest {
+public class TemplateDelegateTest {
 
     @Captor
     private ArgumentCaptor<Map<String, Object>> captor;
@@ -27,9 +27,9 @@ public class GenericDelegateTest {
         Mockito.when(delegateExecution.getVariable(TestValues.BUSINESS_KEY_NAME)).thenReturn(TestValues.BUSINESS_KEY_VALUE);
         Mockito.doNothing().when(delegateExecution).setVariables(captor.capture());
 
-        var genericDelegate = TestDataFactory.newGenericDelegateWithVariables();
+        var templateDelegate = TestDataFactory.newTemplateDelegateWithVariables();
 
-        genericDelegate.execute(delegateExecution);
+        templateDelegate.execute(delegateExecution);
 
         var variables = captor.getAllValues().get(0);
         Assertions.assertEquals(variables.get(TestValues.TEST_OUTPUT_OBJECT_VARIABLE_NAME),
@@ -42,9 +42,9 @@ public class GenericDelegateTest {
         Mockito.when(delegateExecution.getVariable(TestValues.BUSINESS_KEY_NAME)).thenReturn(TestValues.BUSINESS_KEY_VALUE);
         Mockito.doNothing().when(delegateExecution).setVariables(captor.capture());
 
-        var genericDelegate = TestDataFactory.newGenericDelegateWithoutVariables();
+        var templateDelegate = TestDataFactory.newTemplateDelegateWithoutVariables();
 
-        genericDelegate.execute(delegateExecution);
+        templateDelegate.execute(delegateExecution);
 
         var variables = captor.getAllValues().get(0);
         Assertions.assertTrue(MapUtils.isEmpty(variables));
@@ -56,12 +56,11 @@ public class GenericDelegateTest {
         Mockito.when(delegateExecution.getVariable(TestValues.BUSINESS_KEY_NAME)).thenReturn(TestValues.BUSINESS_KEY_VALUE);
         Mockito.doNothing().when(delegateExecution).setVariables(captor.capture());
 
-        var genericDelegate = TestDataFactory.newGenericDelegateWithoutVariableFunctionCall();
+        var templateDelegate = TestDataFactory.newTemplateDelegateWithoutVariableFunctionCall();
 
-        genericDelegate.execute(delegateExecution);
+        templateDelegate.execute(delegateExecution);
 
         var variables = captor.getAllValues().get(0);
         Assertions.assertEquals(variables.get(TestValues.CLASS_NAME_VARIABLE), TestOutputObject.class.getName());
     }
-
 }

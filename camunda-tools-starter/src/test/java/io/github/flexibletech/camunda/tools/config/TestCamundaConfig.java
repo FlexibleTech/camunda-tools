@@ -18,5 +18,4 @@ public class TestCamundaConfig {
     public TaskService taskService() {
         return BpmnAwareTests.taskService();
     }
-
 }

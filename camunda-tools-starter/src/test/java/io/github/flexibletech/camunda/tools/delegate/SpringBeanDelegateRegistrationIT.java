@@ -3,6 +3,7 @@ package io.github.flexibletech.camunda.tools.delegate;
 import io.github.flexibletech.camunda.tools.Application;
 import io.github.flexibletech.camunda.tools.values.TestValues;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,10 @@ import org.springframework.context.support.GenericApplicationContext;
 public class SpringBeanDelegateRegistrationIT {
     @Autowired
     private GenericApplicationContext applicationContext;
-
     @MockBean
     private RuntimeService runtimeService;
+    @MockBean
+    private TaskService taskService;
 
     @Test
     public void shouldRegisterSpringBean() {
@@ -34,5 +36,4 @@ public class SpringBeanDelegateRegistrationIT {
         Assertions.assertNotNull(fiveDelegate);
         Assertions.assertNotNull(sixDelegate);
     }
-
 }

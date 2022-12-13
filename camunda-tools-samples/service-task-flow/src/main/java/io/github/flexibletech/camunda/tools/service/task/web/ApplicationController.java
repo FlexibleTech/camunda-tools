@@ -35,5 +35,4 @@ public class ApplicationController {
     public void completeStep6(@PathVariable String id) {
         applicationService.step6(FlowEntity.Status.STATUS_4, id);
     }
-
 }

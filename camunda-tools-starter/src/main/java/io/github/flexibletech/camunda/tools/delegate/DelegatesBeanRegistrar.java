@@ -1,7 +1,6 @@
 package io.github.flexibletech.camunda.tools.delegate;
 
 import io.github.flexibletech.camunda.tools.process.values.ProcessValuesDefiner;
-import io.github.flexibletech.camunda.tools.process.variables.ProcessVariable;
 import io.github.flexibletech.camunda.tools.process.variables.ProcessVariablesCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +31,17 @@ class DelegatesBeanRegistrar {
         this.processValuesDefiner = processValuesDefiner;
     }
 
+    /**
+     * Registers delegates in the spring context for the given bean.
+     *
+     * @param bean Bean for which delegates will be registered.
+     */
     void registerDelegatesForBean(Object bean) {
-        Method[] delegateMethods = bean.getClass().getMethods();
+        var delegateMethods = bean.getClass().getMethods();
 
-        for (Method delegateMethod : delegateMethods) {
-            Delegate delegateAnnotation = AnnotationUtils.findAnnotation(delegateMethod, Delegate.class);
-            Delegates delegatesAnnotation = AnnotationUtils.findAnnotation(delegateMethod, Delegates.class);
+        for (var delegateMethod : delegateMethods) {
+            var delegateAnnotation = AnnotationUtils.findAnnotation(delegateMethod, Delegate.class);
+            var delegatesAnnotation = AnnotationUtils.findAnnotation(delegateMethod, Delegates.class);
 
             registerDelegate(delegateMethod, bean, delegateAnnotation);
             registerDelegates(delegateMethod, bean, delegatesAnnotation);
@@ -46,7 +50,7 @@ class DelegatesBeanRegistrar {
 
     private void registerDelegates(Method delegateMethod, Object bean, Delegates delegatesAnnotation) {
         if (Objects.nonNull(delegatesAnnotation)) {
-            Delegate[] delegates = delegatesAnnotation.values();
+            var delegates = delegatesAnnotation.values();
 
             Arrays.stream(delegates).forEach(delegate -> registerDelegate(delegateMethod, bean, delegate));
         }
@@ -55,13 +59,13 @@ class DelegatesBeanRegistrar {
     private void registerDelegate(Method delegateMethod, Object bean, Delegate delegate) {
         if (Objects.nonNull(delegate)) {
 
-            ProcessVariable[] processVariables = delegate.variables();
-            String processKey = delegate.key();
-            String beanName = delegate.beanName();
-            Object[] processValues = processValuesDefiner.defineProcessValues(delegateMethod.getParameters(), delegate.beanName());
+            var processVariables = delegate.variables();
+            var processKey = delegate.key();
+            var beanName = delegate.beanName();
+            var processValues = processValuesDefiner.defineProcessValues(delegateMethod.getParameters(), delegate.beanName());
 
-            Invocation invocation = Invocation.newInvocation(delegateMethod, bean, processValues, delegate.throwBpmnError());
-            Map<String, String> variables = Arrays.stream(processVariables).collect(ProcessVariablesCollector.toValuesMap());
+            var invocation = Invocation.newInvocation(delegateMethod, bean, processValues, delegate.throwBpmnError());
+            var variables = Arrays.stream(processVariables).collect(ProcessVariablesCollector.toValuesMap());
 
             registerBean(beanName, invocation, processKey, variables);
 
@@ -69,21 +73,38 @@ class DelegatesBeanRegistrar {
         }
     }
 
+    /**
+     * Registers a delegate bean in the context of the spring.
+     * The bean will only be registered if it is not present in the context.
+     *
+     * @param beanName   The name of the bean to be used for the delegate.
+     * @param invocation {@link io.github.flexibletech.camunda.tools.delegate.Invocation}
+     * @param processKey The key with which the process will be launched in camunda.
+     * @param variables  Process variables.
+     */
     private void registerBean(String beanName, Invocation invocation, String processKey, Map<String, String> variables) {
         try {
             applicationContext.getBean(beanName);
             throw new IllegalArgumentException(String.format("Delegate %s already exists", beanName));
         } catch (NoSuchBeanDefinitionException ex) {
-            applicationContext.registerBean(beanName, GenericDelegate.class);
-            postInitGenericDelegate(invocation, processKey, variables, beanName);
+            applicationContext.registerBean(beanName, TemplateDelegate.class);
+            postInitTemplateDelegate(invocation, processKey, variables, beanName);
         }
     }
 
-    private void postInitGenericDelegate(Invocation invocation, String processKey,
-                                         Map<String, String> variables, String beanName) {
-        GenericDelegate genericDelegate = applicationContext.getBean(beanName, GenericDelegate.class);
-        genericDelegate.setInvocation(invocation);
-        genericDelegate.setProcessKeyName(processKey);
-        genericDelegate.setVariables(variables);
+    /**
+     * Initializing delegate variables after it has been created.
+     *
+     * @param invocation {@link io.github.flexibletech.camunda.tools.delegate.Invocation}
+     * @param processKey The key with which the process will be launched in camunda.
+     * @param variables  Process variables.
+     * @param beanName   The name of the bean to be used for the delegate.
+     */
+    private void postInitTemplateDelegate(Invocation invocation, String processKey,
+                                          Map<String, String> variables, String beanName) {
+        TemplateDelegate templateDelegate = applicationContext.getBean(beanName, TemplateDelegate.class);
+        templateDelegate.setInvocation(invocation);
+        templateDelegate.setProcessKey(processKey);
+        templateDelegate.setExpressionVariables(variables);
     }
 }

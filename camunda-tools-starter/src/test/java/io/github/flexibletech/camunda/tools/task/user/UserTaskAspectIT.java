@@ -44,5 +44,4 @@ public class UserTaskAspectIT {
         Mockito.verify(userTaskAspect, Mockito.times(1))
                 .execute(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
-
 }

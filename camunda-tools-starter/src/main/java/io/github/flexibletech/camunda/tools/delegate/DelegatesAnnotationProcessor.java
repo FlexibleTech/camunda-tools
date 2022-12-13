@@ -13,7 +13,6 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import java.util.List;
 import java.util.Set;
 
 @AutoService(Processor.class)
@@ -23,8 +22,8 @@ public class DelegatesAnnotationProcessor extends AbstractAnnotationProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (TypeElement annotation : annotations) {
-            Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
+        for (var annotation : annotations) {
+            var annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
 
             boolean isProcessKeyValueExists = checkProcessKeyValueAnnotation(annotatedElements);
             if (!isProcessKeyValueExists) return false;
@@ -35,8 +34,8 @@ public class DelegatesAnnotationProcessor extends AbstractAnnotationProcessor {
     }
 
     private boolean checkProcessValuesAnnotation(Set<? extends Element> annotatedElements) {
-        for (Element element : annotatedElements) {
-            List<ProcessValues> processValues = findAnnotationByType(element, ProcessValues.class);
+        for (var element : annotatedElements) {
+            var processValues = findAnnotationByType(element, ProcessValues.class);
             if (CollectionUtils.isEmpty(processValues)) {
                 processingEnv.getMessager()
                         .printMessage(Diagnostic.Kind.ERROR, String.format(
@@ -46,5 +45,4 @@ public class DelegatesAnnotationProcessor extends AbstractAnnotationProcessor {
         }
         return true;
     }
-
 }

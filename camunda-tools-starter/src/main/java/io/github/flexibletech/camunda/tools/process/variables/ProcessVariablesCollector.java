@@ -45,5 +45,4 @@ public class ProcessVariablesCollector implements Collector<ProcessVariable, Map
     public static ProcessVariablesCollector toValuesMap() {
         return new ProcessVariablesCollector();
     }
-
 }

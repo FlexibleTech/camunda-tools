@@ -5,5 +5,4 @@ public class Constants {
     }
 
     public static final String BUSINESS_KEY_VALUE = "businessKeyValue";
-
 }

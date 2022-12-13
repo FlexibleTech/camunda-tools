@@ -1,8 +1,8 @@
 package io.github.flexibletech.camunda.tools.values.beans;
 
+import io.github.flexibletech.camunda.tools.delegate.Delegate;
 import io.github.flexibletech.camunda.tools.delegate.Delegates;
 import io.github.flexibletech.camunda.tools.process.values.BeanProcessValue;
-import io.github.flexibletech.camunda.tools.delegate.Delegate;
 import io.github.flexibletech.camunda.tools.process.values.ProcessKeyValue;
 import io.github.flexibletech.camunda.tools.process.values.ProcessValue;
 import io.github.flexibletech.camunda.tools.process.values.ProcessValues;
@@ -104,8 +104,8 @@ public class TestBean {
                                          @ProcessValue(value = TestValues.TEST_STRING_PROCESS_VALUE_2, type = String.class, delegate = TestValues.TEST_DELEGATE_NINE_NAME)
                                  }) String testString) {
     }
+
     public String processKey() {
         return TestValues.PROCESS_KEY;
     }
-
 }

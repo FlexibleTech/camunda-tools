@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 abstract public class AbstractAnnotationProcessor extends AbstractProcessor {
 
     protected boolean checkProcessKeyValueAnnotation(Set<? extends Element> annotatedElements) {
-        for (Element element : annotatedElements) {
-            List<ProcessKeyValue> processKeyValues = findAnnotationByType(element, ProcessKeyValue.class);
+        for (var element : annotatedElements) {
+            var processKeyValues = findAnnotationByType(element, ProcessKeyValue.class);
             if (processKeyValues.size() != 1) {
                 processingEnv.getMessager()
                         .printMessage(Diagnostic.Kind.ERROR, String.format(
@@ -29,7 +29,7 @@ abstract public class AbstractAnnotationProcessor extends AbstractProcessor {
     }
 
     protected <T extends Annotation> List<T> findAnnotationByType(Element element, Class<T> clazz) {
-        ExecutableElement executableElement = (ExecutableElement) element;
+        var executableElement = (ExecutableElement) element;
         return executableElement.getParameters()
                 .stream()
                 .flatMap(p -> Arrays.stream(p.getAnnotationsByType(clazz)))
@@ -41,5 +41,4 @@ abstract public class AbstractAnnotationProcessor extends AbstractProcessor {
                 .getQualifiedName()
                 .toString();
     }
-
 }

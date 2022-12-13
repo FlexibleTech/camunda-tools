@@ -14,7 +14,7 @@ public class InvocationTest {
 
     @Test
     public void shouldExecuteActionWithArgument() throws InvocationTargetException, IllegalAccessException {
-        Invocation invocation = Invocation.newInvocation(
+        var invocation = Invocation.newInvocation(
                 ReflectionUtils.findMethod("doActionFirst", TestBean.class),
                 new TestBean(),
                 new Object[]{Constants.BUSINESS_KEY_VALUE, TestValues.TEST_BEAN_DO_ACTION_ARG},
@@ -52,7 +52,7 @@ public class InvocationTest {
 
     @Test
     public void shouldThrowBpmnError() {
-        Invocation invocation = Invocation.newInvocation(
+        var invocation = Invocation.newInvocation(
                 ReflectionUtils.findMethod("doActionEleven", TestBean.class),
                 new TestBean(),
                 new Object[]{Constants.BUSINESS_KEY_VALUE, TestValues.TEST_BEAN_DO_ACTION_ARG},
@@ -60,5 +60,4 @@ public class InvocationTest {
 
         Assertions.assertThrows(BpmnError.class, () -> invocation.execute(TestValues.PROCESS_KEY));
     }
-
 }

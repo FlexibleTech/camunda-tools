@@ -106,6 +106,4 @@ public class ProcessValuesDefinerTest {
 
         Assertions.assertEquals(processValues[1], TestValues.TEST_STRING_PROCESS_VALUE_2);
     }
-
-
 }

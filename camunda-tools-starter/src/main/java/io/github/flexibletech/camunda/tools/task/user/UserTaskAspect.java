@@ -20,5 +20,4 @@ public class UserTaskAspect extends TaskAspect {
     public void execute(JoinPoint joinPoint, Object result) {
         super.execute(joinPoint, result);
     }
-
 }

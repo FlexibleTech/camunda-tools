@@ -17,8 +17,7 @@ public class StartProcessAspect {
 
     @AfterReturning(pointcut = "@annotation(io.github.flexibletech.camunda.tools.process.start.StartProcess)", returning = "result")
     public void execute(JoinPoint joinPoint, Object result) {
-        StartProcess startProcessAnnotation = AopUtils.findAnnotation(joinPoint, StartProcess.class);
+        var startProcessAnnotation = AopUtils.findAnnotation(joinPoint, StartProcess.class);
         processStarter.startProcess(startProcessAnnotation, result);
     }
-
 }

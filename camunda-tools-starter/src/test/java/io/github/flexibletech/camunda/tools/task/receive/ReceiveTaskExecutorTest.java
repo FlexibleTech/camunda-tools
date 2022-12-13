@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +40,7 @@ public class ReceiveTaskExecutorTest {
         CamundaMockitoUtils.mockMessageCorrelation(runtimeService, businessKeyCaptor,
                 messageCorrelationCaptor, processVariablesCaptor);
 
-        Method receiveTaskMethod = ReflectionUtils.findMethod("doActionNine", TestBean.class);
+        var receiveTaskMethod = ReflectionUtils.findMethod("doActionNine", TestBean.class);
 
         receiveTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 receiveTaskMethod,
@@ -57,7 +56,7 @@ public class ReceiveTaskExecutorTest {
         CamundaMockitoUtils.mockMessageCorrelation(runtimeService, businessKeyCaptor,
                 messageCorrelationCaptor, processVariablesCaptor);
 
-        Method receiveTaskMethod = ReflectionUtils.findMethod("doActionTen", TestBean.class);
+        var receiveTaskMethod = ReflectionUtils.findMethod("doActionTen", TestBean.class);
 
         receiveTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 receiveTaskMethod,
@@ -67,5 +66,4 @@ public class ReceiveTaskExecutorTest {
         Assertions.assertEquals(messageCorrelationCaptor.getValue(), TestValues.RECEIVE_TASK_FIRST);
         Assertions.assertTrue(MapUtils.isEmpty(processVariablesCaptor.getValue()));
     }
-
 }

@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +37,7 @@ public class UserTaskExecutorTest {
         Mockito.doNothing().when(taskService).setVariables(ArgumentMatchers.anyString(), variablesCaptor.capture());
         Mockito.doNothing().when(taskService).complete(taskIdCaptor.capture());
 
-        Method userTaskMethod = ReflectionUtils.findMethod("doActionSeven", TestBean.class);
+        var userTaskMethod = ReflectionUtils.findMethod("doActionSeven", TestBean.class);
 
         userTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 userTaskMethod,
@@ -53,7 +52,7 @@ public class UserTaskExecutorTest {
         CamundaMockitoUtils.mockFindTask(taskService, TestValues.USER_TASK_ID);
         Mockito.doNothing().when(taskService).complete(taskIdCaptor.capture());
 
-        Method userTaskMethod = ReflectionUtils.findMethod("doActionEight", TestBean.class);
+        var userTaskMethod = ReflectionUtils.findMethod("doActionEight", TestBean.class);
 
         userTaskExecutor.executeTask(TestDataFactory.newTestOutputObject(),
                 userTaskMethod,
@@ -68,7 +67,7 @@ public class UserTaskExecutorTest {
     public void shouldThrowIllegalArgumentExceptionForNullableTask() {
         CamundaMockitoUtils.mockFindNullableTask(taskService);
 
-        Method userTaskMethod = ReflectionUtils.findMethod("doActionEight", TestBean.class);
+        var userTaskMethod = ReflectionUtils.findMethod("doActionEight", TestBean.class);
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> userTaskExecutor.executeTask(

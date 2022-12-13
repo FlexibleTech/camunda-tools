@@ -13,5 +13,4 @@ public abstract class TaskAspect {
     public void execute(JoinPoint joinPoint, Object result) {
         taskExecutor.executeTask(result, AopUtils.findMethod(joinPoint), joinPoint.getArgs());
     }
-
 }

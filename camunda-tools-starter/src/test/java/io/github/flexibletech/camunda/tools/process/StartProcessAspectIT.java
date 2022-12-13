@@ -19,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 
-
 @Import(TestCamundaConfig.class)
 @ExtendWith(ProcessEngineExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -43,5 +42,4 @@ public class StartProcessAspectIT {
         Mockito.verify(startProcessAspect, Mockito.times(1))
                 .execute(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
-
 }

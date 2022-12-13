@@ -11,21 +11,29 @@ public class ExpressionExecutorTest {
 
     @Test
     public void shouldParseAndExecuteExpression() {
-        TestBean testBean = new TestBean();
+        var testBean = new TestBean();
 
-        String result = (String) ExpressionExecutor.parseAndExecuteExpression(testBean, "processKey()");
+        var result = (String) ExpressionExecutor.parseAndExecuteExpression(testBean, "processKey()");
 
         Assertions.assertEquals(result, TestValues.PROCESS_KEY);
     }
 
     @Test
-    public void shouldParseAndExecuteExpressions() {
-        TestBean testBean = new TestBean();
-        Map<String, String> variables = Map.of(TestValues.PROCESS_KEY, "processKey()");
+    public void shouldParseAndExecuteEmptyExpressions() {
+        var testBean = new TestBean();
 
-        Map<String, Object> result = ExpressionExecutor.parseAndExecuteExpressions(testBean, variables);
+        var result = ExpressionExecutor.parseAndExecuteExpressions(testBean, null);
+
+        Assertions.assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void shouldParseAndExecuteExpressions() {
+        var testBean = new TestBean();
+        var variables = Map.of(TestValues.PROCESS_KEY, "processKey()");
+
+        var result = ExpressionExecutor.parseAndExecuteExpressions(testBean, variables);
 
         Assertions.assertEquals(result.get(TestValues.PROCESS_KEY), TestValues.PROCESS_KEY);
     }
-
 }

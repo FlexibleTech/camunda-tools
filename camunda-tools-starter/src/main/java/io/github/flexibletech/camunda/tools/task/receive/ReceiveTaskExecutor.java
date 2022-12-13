@@ -8,7 +8,6 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -23,10 +22,10 @@ public class ReceiveTaskExecutor extends TaskExecutor {
 
     @Override
     public void executeTask(Object result, Method method, Object[] args) {
-        String businessKey = findBusinessKeyValue(method, args);
-        ReceiveTask taskAnnotation = AnnotationUtils.findAnnotation(method, ReceiveTask.class);
+        var businessKey = findBusinessKeyValue(method, args);
+        var taskAnnotation = AnnotationUtils.findAnnotation(method, ReceiveTask.class);
 
-        Map<String, Object> processVariables = defineProcessVariables(Objects.requireNonNull(taskAnnotation).variables(), result);
+        var processVariables = defineProcessVariables(Objects.requireNonNull(taskAnnotation).variables(), result);
 
         runtimeService.createMessageCorrelation(taskAnnotation.definitionKey())
                 .processInstanceBusinessKey(businessKey)
@@ -35,5 +34,4 @@ public class ReceiveTaskExecutor extends TaskExecutor {
 
         log.info("Task with definition {} has been completed", taskAnnotation.definitionKey());
     }
-
 }

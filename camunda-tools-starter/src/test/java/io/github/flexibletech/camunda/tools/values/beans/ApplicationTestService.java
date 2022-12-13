@@ -27,5 +27,4 @@ public class ApplicationTestService {
     public TestApplication testReceiverTask(@ProcessKeyValue String processKey) {
         return new TestApplication(TestValues.BUSINESS_KEY_VALUE);
     }
-
 }
